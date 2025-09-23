@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/world/Overworld.gd" id="1_bp2h7"]
 [ext_resource type="PackedScene" uid="uid://dpx7f3y1n8y8o" path="res://scenes/player/Player.tscn" id="2_2mfj7"]
 [ext_resource type="PackedScene" uid="uid://b4d5hqpx8n7y1" path="res://scenes/npcs/NPC.tscn" id="3_npc"]
-[ext_resource type="Script" path="res://scripts/npcs/VillageElder.gd" id="4_village_elder"]
+[ext_resource type="Script" path="res://scripts/npcs/Paul.gd" id="4_paul"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_bp2h7")
@@ -16,9 +16,9 @@ position = Vector2(512, 384)
 
 [node name="NPCs" type="Node2D" parent="."]
 
-[node name="TestNPC" parent="NPCs" instance=ExtResource("3_npc")]
+[node name="Paul" parent="NPCs" instance=ExtResource("3_npc")]
 position = Vector2(600, 384)
-script = ExtResource("4_village_elder")
+script = ExtResource("4_paul")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 enabled = true

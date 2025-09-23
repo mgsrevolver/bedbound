@@ -1,5 +1,0 @@
-res://scripts/dialogue/DialogueManager.gd
-res://scripts/npcs/NPC.gd
-res://scripts/ui/DialogueUI.gd
-res://scenes/ui/ConversationWheel.tscn
-res://scripts/ui/ConversationWheel.gd

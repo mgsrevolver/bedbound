@@ -39,9 +39,9 @@ func setup_world():
 			tilemap.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
 
 func setup_npcs():
-	var test_npc = $NPCs/TestNPC
-	test_npc.setup("Village Elder", Vector2(600, 384), Color.PURPLE)
-	npcs.append(test_npc)
+	var paul = $NPCs/Paul
+	paul.setup("Paul", Vector2(600, 384), Color.BLUE)
+	npcs.append(paul)
 
 func _on_interaction_triggered(npc):
 	print("Player wants to interact with NPC: ", npc.npc_name)

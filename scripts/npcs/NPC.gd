@@ -25,6 +25,12 @@ var emotional_state: Dictionary = {
 }
 var global_state: GlobalState
 
+# 3-level conversation system
+var conversation_level: int = 1
+var level_2_choice: String = ""
+var level_3_used_options: Array[String] = []
+var level_3_available_options: Array[String] = []
+
 func setup(name: String, pos: Vector2, color: Color = Color.GREEN):
 	npc_name = name
 	position = pos
@@ -56,19 +62,96 @@ func _on_area_entered(area):
 			dialogue_manager.start_dialogue(self)
 
 func get_current_dialogue() -> String:
-	return "Hello there..."
+	# Reset conversation state when starting new dialogue
+	conversation_level = 1
+	level_2_choice = ""
+	level_3_used_options.clear()
+	level_3_available_options.clear()
+
+	return conversation_tree.get("level_1", {}).get("text", "Hello there...")
 
 func process_dialogue_option(option: DialogueManager.DialogueOption) -> Dictionary:
-	var current_branch = get_current_branch()
-	if current_branch.is_empty():
-		return get_fallback_response(option)
-
 	var option_key = get_option_key(option)
-	if not current_branch.has(option_key):
-		return get_contextual_default(option)
 
-	var response_data = current_branch[option_key]
-	return process_response(response_data, option)
+	match conversation_level:
+		1:
+			return handle_level_1_choice(option_key)
+		2:
+			return handle_level_2_choice(option_key)
+		3:
+			return handle_level_3_choice(option_key)
+		_:
+			return get_fallback_response(option)
+
+func handle_level_1_choice(option_key: String) -> Dictionary:
+	# This shouldn't happen - Level 1 is just initial text
+	# But if it does, treat as Level 2
+	return handle_level_2_choice(option_key)
+
+func handle_level_2_choice(option_key: String) -> Dictionary:
+	conversation_level = 3  # Move to level 3 after this choice
+	level_2_choice = option_key
+
+	# Set up Level 3 available options (all 4 options, including repeating the choice)
+	var all_options = ["reflect", "acknowledge", "clarify", "wait"]
+	level_3_available_options = all_options.duplicate()
+	level_3_used_options.clear()
+
+	# Get response from conversation tree
+	var level_2_data = conversation_tree.get("level_1", {}).get("branches", {}).get(option_key, {})
+	var response_text = level_2_data.get("text", get_contextual_default_text(option_key))
+
+	return {
+		"text": response_text,
+		"continues": true,
+		"options": level_3_available_options,
+		"trust_change": level_2_data.get("trust_change", 0)
+	}
+
+func handle_level_3_choice(option_key: String) -> Dictionary:
+	# Mark this option as used
+	if not level_3_used_options.has(option_key):
+		level_3_used_options.append(option_key)
+
+	# Remove from available options
+	level_3_available_options = level_3_available_options.filter(func(opt): return opt != option_key)
+
+	# Get response
+	var level_3_data = conversation_tree.get("level_1", {}).get("branches", {}).get(level_2_choice, {}).get("level_3", {}).get(option_key, {})
+	var response_text = level_3_data.get("text", get_contextual_default_text(option_key))
+
+	# Check if all options exhausted
+	if level_3_available_options.is_empty():
+		# Conversation complete - trigger graceful end
+		return {
+			"text": response_text,
+			"continues": false,
+			"options": [],
+			"trust_change": level_3_data.get("trust_change", 1),
+			"dead_end_type": DeadEndType.COMFORTABLE_CONCLUSION,
+			"farewell": "Thank you for listening so carefully. I feel truly heard."
+		}
+	else:
+		# More options available
+		return {
+			"text": response_text,
+			"continues": true,
+			"options": level_3_available_options,
+			"trust_change": level_3_data.get("trust_change", 1)
+		}
+
+func get_contextual_default_text(option_key: String) -> String:
+	match option_key:
+		"reflect":
+			return "I can see this means a lot to you..."
+		"acknowledge":
+			return "Yes, I understand..."
+		"clarify":
+			return "Can you tell me more about that?"
+		"wait":
+			return "..."
+		_:
+			return "..."
 
 func get_current_branch() -> Dictionary:
 	for branch_name in conversation_tree.get("branches", {}):
@@ -79,14 +162,16 @@ func get_current_branch() -> Dictionary:
 
 func get_option_key(option: DialogueManager.DialogueOption) -> String:
 	match option:
-		DialogueManager.DialogueOption.SAY_NOTHING:
-			return "say_nothing"
-		DialogueManager.DialogueOption.NOD:
-			return "nod"
-		DialogueManager.DialogueOption.ASK_WHY:
-			return "ask_why"
-		DialogueManager.DialogueOption.REPEAT_BACK:
-			return "repeat_back"
+		DialogueManager.DialogueOption.WAIT:
+			return "wait"
+		DialogueManager.DialogueOption.ACKNOWLEDGE:
+			return "acknowledge"
+		DialogueManager.DialogueOption.CLARIFY:
+			return "clarify"
+		DialogueManager.DialogueOption.REFLECT:
+			return "reflect"
+		DialogueManager.DialogueOption.PROBE:
+			return "probe"
 		_:
 			return "unknown"
 
@@ -121,14 +206,14 @@ func process_response(response_data: Dictionary, option: DialogueManager.Dialogu
 
 func get_contextual_default(option: DialogueManager.DialogueOption) -> Dictionary:
 	match option:
-		DialogueManager.DialogueOption.SAY_NOTHING:
-			return handle_say_nothing()
-		DialogueManager.DialogueOption.NOD:
-			return handle_nod()
-		DialogueManager.DialogueOption.ASK_WHY:
-			return handle_ask_why()
-		DialogueManager.DialogueOption.REPEAT_BACK:
-			return handle_repeat_back()
+		DialogueManager.DialogueOption.WAIT:
+			return handle_wait()
+		DialogueManager.DialogueOption.ACKNOWLEDGE:
+			return handle_acknowledge()
+		DialogueManager.DialogueOption.CLARIFY:
+			return handle_clarify()
+		DialogueManager.DialogueOption.REFLECT:
+			return handle_reflect()
 		_:
 			return {"text": "...", "continues": false, "options": []}
 
@@ -138,7 +223,7 @@ func get_fallback_response(option: DialogueManager.DialogueOption) -> Dictionary
 func get_last_trust_change() -> int:
 	return last_trust_change
 
-func handle_say_nothing() -> Dictionary:
+func handle_wait() -> Dictionary:
 	var trust_change = 1
 	last_trust_change = trust_change
 	trust_level += trust_change
@@ -167,7 +252,7 @@ func handle_say_nothing() -> Dictionary:
 			"farewell": "Well, I should get going. See you around."
 		}
 
-func handle_nod() -> Dictionary:
+func handle_acknowledge() -> Dictionary:
 	var trust_change = 1
 	last_trust_change = trust_change
 	trust_level += trust_change
@@ -189,7 +274,7 @@ func handle_nod() -> Dictionary:
 			"farewell": "I'm glad we understand each other. Take care."
 		}
 
-func handle_ask_why() -> Dictionary:
+func handle_clarify() -> Dictionary:
 	if trust_level < 3:
 		return {
 			"text": "That's... quite personal. Perhaps when we know each other better.",
@@ -214,7 +299,7 @@ func handle_ask_why() -> Dictionary:
 			"farewell": "I've given you something to think about. Until next time."
 		}
 
-func handle_repeat_back() -> Dictionary:
+func handle_reflect() -> Dictionary:
 	var trust_change = 2
 	last_trust_change = trust_change
 	trust_level += trust_change

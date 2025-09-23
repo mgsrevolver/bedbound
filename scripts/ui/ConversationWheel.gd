@@ -26,14 +26,14 @@ var last_touch_pos: Vector2
 var current_angle = 0.0
 var target_angle = 0.0
 var spin_velocity = 0.0
-var selected_option = DialogueManager.DialogueOption.SAY_NOTHING
+var selected_option = DialogueManager.DialogueOption.WAIT
 
 # Option configuration
 var base_options = [
-	{"option": DialogueManager.DialogueOption.SAY_NOTHING, "label": "Wait", "angle": 0},
-	{"option": DialogueManager.DialogueOption.NOD, "label": "Acknowledge", "angle": 90},
-	{"option": DialogueManager.DialogueOption.ASK_WHY, "label": "Clarify", "angle": 180},
-	{"option": DialogueManager.DialogueOption.REPEAT_BACK, "label": "Reflect", "angle": 270}
+	{"option": DialogueManager.DialogueOption.WAIT, "label": "Wait", "angle": 0},
+	{"option": DialogueManager.DialogueOption.ACKNOWLEDGE, "label": "Acknowledge", "angle": 90},
+	{"option": DialogueManager.DialogueOption.CLARIFY, "label": "Clarify", "angle": 180},
+	{"option": DialogueManager.DialogueOption.REFLECT, "label": "Reflect", "angle": 270}
 ]
 
 var option_segments = []
@@ -80,9 +80,10 @@ func _process(delta):
 			update_selection_indicator()
 
 func setup_wheel():
-	# Set up the wheel in center of screen
+	# Set up the wheel in upper portion of screen, avoiding dialogue panel
 	var screen_size = get_viewport().get_visible_rect().size
-	var wheel_center = Vector2(screen_size.x * 0.5, screen_size.y * 0.7)
+	# Position wheel in upper half, leaving space for dialogue panel at bottom
+	var wheel_center = Vector2(screen_size.x * 0.5, screen_size.y * 0.35)
 
 	wheel_container.position = wheel_center
 	selection_indicator.position = wheel_center
@@ -357,6 +358,10 @@ func set_wheel_angle(angle: float):
 func update_wheel_rotation():
 	if wheel_container:
 		wheel_container.rotation_degrees = current_angle
+		# Keep all labels upright and readable
+		for segment in option_segments:
+			if segment:
+				segment.rotation_degrees = -current_angle
 
 func update_selection_indicator():
 	# Highlight the currently selected option
@@ -378,9 +383,12 @@ func confirm_selection():
 
 func setup_dialogue(text: String):
 	dialogue_text.text = text
+	reset_wheel_position()
 
 func update_dialogue(text: String, available_options: Array = []):
 	dialogue_text.text = text
+	# Reset wheel to default position for new conversation turn
+	reset_wheel_position()
 	# Update wheel with new options if provided
 	if not available_options.is_empty():
 		# Could customize wheel segments based on available options
@@ -456,7 +464,7 @@ func show_conversation_summary(npc_name: String, trust_change: int, total_trust:
 
 	# Position button in center where wheel was
 	var screen_size = get_viewport().get_visible_rect().size
-	var center_pos = Vector2(screen_size.x * 0.5, screen_size.y * 0.7)
+	var center_pos = Vector2(screen_size.x * 0.5, screen_size.y * 0.35)
 	continue_button.position = center_pos - continue_button.custom_minimum_size * 0.5
 
 	continue_button.pressed.connect(func():
@@ -464,6 +472,21 @@ func show_conversation_summary(npc_name: String, trust_change: int, total_trust:
 		conversation_finished.emit()
 	)
 	add_child(continue_button)
+
+func reset_wheel_position():
+	# Reset wheel to default position and stop any momentum
+	current_angle = 0.0
+	target_angle = 0.0
+	spin_velocity = 0.0
+	selected_option = DialogueManager.DialogueOption.WAIT
+
+	# Stop any running animation
+	if animation_tween:
+		animation_tween.kill()
+
+	# Update visual state
+	update_wheel_rotation()
+	update_selection_indicator()
 
 func set_trust_level(level: int):
 	trust_level = level

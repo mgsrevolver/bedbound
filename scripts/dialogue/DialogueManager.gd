@@ -4,10 +4,10 @@ class_name DialogueManager
 signal dialogue_ended
 
 enum DialogueOption {
-	SAY_NOTHING,
-	NOD,
-	ASK_WHY,
-	REPEAT_BACK,
+	WAIT,
+	ACKNOWLEDGE,
+	CLARIFY,
+	REFLECT,
 	PROBE
 }
 
