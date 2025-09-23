@@ -34,6 +34,12 @@ func change_to_overworld():
 		player.add_to_group("player")
 
 func change_to_combat(enemy_data):
+	print("Main scene changing to combat with enemy: ", enemy_data.name)
+
+	# Disable player camera and movement
+	if player:
+		player.set_combat_mode(true)
+
 	if current_scene:
 		current_scene.visible = false
 
@@ -45,6 +51,10 @@ func change_to_combat(enemy_data):
 	current_state = GameState.COMBAT
 
 func _on_combat_ended(player_won: bool):
+	# Re-enable player camera and movement
+	if player:
+		player.set_combat_mode(false)
+
 	# Remove combat scene
 	for child in get_children():
 		if child.get_script() and child.get_script().get_path().ends_with("Combat.gd"):

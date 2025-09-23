@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://btdl2l6hl2jdm"]
 
-[ext_resource type="Script" path="res://scripts/Main.gd" id="1_4q8kr"]
+[ext_resource type="Script" uid="uid://dvip50xs6dfwo" path="res://scripts/Main.gd" id="1_4q8kr"]
 [ext_resource type="PackedScene" uid="uid://ci3f3s5vdpyj2" path="res://scenes/ui/GameUI.tscn" id="2_8qv1r"]
 
 [node name="Main" type="Node2D"]
@@ -11,6 +11,10 @@ script = ExtResource("1_4q8kr")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="GameUI" parent="UI" instance=ExtResource("2_8qv1r")]
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TransitionLayer" type="CanvasLayer" parent="."]
 layer = 10
+
+[node name="Node" type="Node" parent="."]

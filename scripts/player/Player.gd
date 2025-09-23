@@ -27,22 +27,18 @@ func _ready():
 	texture.set_image(image)
 	$Sprite2D.texture = texture
 
-	# Setup collision
-	var collision = RectangleShape2D.new()
-	collision.size = Vector2(24, 32)
-	$CollisionShape2D.shape = collision
-
-	# Setup interaction area (slightly larger)
-	var interaction_collision = RectangleShape2D.new()
-	interaction_collision.size = Vector2(32, 40)
-	$InteractionArea/InteractionCollision.shape = interaction_collision
-
 func _physics_process(delta):
 	if in_combat:
 		return
 
 	handle_movement()
 	move_and_slide()
+
+func set_combat_mode(combat_active: bool):
+	in_combat = combat_active
+	# Disable camera when in combat
+	if has_node("Camera2D"):
+		$Camera2D.enabled = not combat_active
 
 func handle_movement():
 	var input_vector = Vector2.ZERO

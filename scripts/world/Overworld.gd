@@ -57,6 +57,7 @@ func create_enemy(enemy_type: String, pos: Vector2):
 
 func _on_enemy_encounter(enemy_data):
 	# Trigger combat
+	print("Overworld received enemy encounter signal for: ", enemy_data.name)
 	get_tree().call_group("main", "change_to_combat", enemy_data)
 
 func _on_encounter_triggered(enemy_type):

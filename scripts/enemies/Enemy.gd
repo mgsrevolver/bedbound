@@ -32,11 +32,6 @@ func setup(enemy_type: String, pos: Vector2):
 			exp_reward = 25
 			create_sprite(Color(0.184, 0.184, 0.184))  # Dark gray
 
-	# Setup collision
-	var collision = RectangleShape2D.new()
-	collision.size = Vector2(24, 24)
-	$CollisionShape2D.shape = collision
-
 	# Connect signal
 	body_entered.connect(_on_body_entered)
 
@@ -54,7 +49,9 @@ func create_sprite(color: Color):
 	center_texture.set_image(center_image)
 
 func _on_body_entered(body):
+	print("Enemy collision detected with: ", body.name)
 	if body is Player and not defeated:
+		print("Player collision confirmed, triggering combat with ", enemy_name)
 		var enemy_data = get_enemy_data()
 		player_collided.emit(enemy_data)
 

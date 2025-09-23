@@ -43,7 +43,10 @@ func setup_battle(player_ref: Player, enemy_info: Dictionary):
 	add_to_log("A wild " + enemy_data.name + " appeared!")
 	state = CombatState.WAITING
 	wait_timer = 1.0
+	$UI/ActionPrompt.visible = false
 	update_ui()
+
+	print("Combat scene setup complete - battle log should show: ", battle_log)
 
 func _process(delta):
 	if wait_timer > 0:
@@ -118,6 +121,7 @@ func add_to_log(message: String):
 		log_text += line + "\n"
 
 	$UI/BattleLog.text = log_text
+	print("Battle log updated: ", log_text)
 
 func update_ui():
 	$UI/PlayerStats.text = "Player HP: " + str(player.hp) + "/" + str(player.max_hp)
