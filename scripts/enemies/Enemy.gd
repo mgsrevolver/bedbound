@@ -4,12 +4,16 @@ class_name Enemy
 signal player_collided(enemy_data)
 
 var enemy_name: String
-var hp: int
-var max_hp: int
 var attack: int
 var defense: int
 var exp_reward: int
 var defeated: bool = false
+
+# Component references (will be added back later)
+# @onready var health_component: IndieBlueprintHealth = $HealthComponent
+
+var hp: int
+var max_hp: int
 
 func setup(enemy_type: String, pos: Vector2):
 	enemy_name = enemy_type
@@ -31,6 +35,9 @@ func setup(enemy_type: String, pos: Vector2):
 			defense = 2
 			exp_reward = 25
 			create_sprite(Color(0.184, 0.184, 0.184))  # Dark gray
+
+	# Connect health component signals (will be added back later)
+	# health_component.died.connect(_on_enemy_died)
 
 	# Connect signal
 	body_entered.connect(_on_body_entered)
@@ -65,6 +72,17 @@ func get_enemy_data() -> Dictionary:
 		"exp_reward": exp_reward,
 		"reference": self
 	}
+
+func take_damage(amount: int):
+	hp -= amount
+	hp = max(hp, 0)
+
+	if hp <= 0:
+		_on_enemy_died()
+
+func _on_enemy_died():
+	print(enemy_name + " was defeated!")
+	mark_defeated()
 
 func mark_defeated():
 	defeated = true

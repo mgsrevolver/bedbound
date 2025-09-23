@@ -18,9 +18,9 @@ func _process(_delta):
 		update_stats()
 
 func update_stats():
-	if not player:
+	if not player or not player.character_stats:
 		return
 
-	$PlayerStatsPanel/StatsContainer/HPLabel.text = "HP: " + str(player.hp) + "/" + str(player.max_hp)
-	$PlayerStatsPanel/StatsContainer/LevelLabel.text = "Level: " + str(player.level)
+	$PlayerStatsPanel/StatsContainer/HPLabel.text = "HP: " + str(player.character_stats.hp) + "/" + str(player.character_stats.max_hp)
+	$PlayerStatsPanel/StatsContainer/LevelLabel.text = "Level: " + str(player.character_stats.level)
 	$PlayerStatsPanel/StatsContainer/EXPLabel.text = "EXP: " + str(player.exp)

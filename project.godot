@@ -54,6 +54,10 @@ interact={
 ]
 }
 
+[plugins]
+
+enabled=PackedStringArray("res://addons/ninetailsrabbit.indie_blueprint_rpg/plugin.cfg")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

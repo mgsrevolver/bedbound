@@ -20,6 +20,7 @@ func _ready():
 	# Setup UI references
 	pass
 
+
 func setup_battle(player_ref: Player, enemy_info: Dictionary):
 	player = player_ref
 	enemy_data = enemy_info.duplicate()
@@ -51,13 +52,17 @@ func setup_battle(player_ref: Player, enemy_info: Dictionary):
 func _process(delta):
 	if wait_timer > 0:
 		wait_timer -= delta
+		if wait_timer <= 0:
+			print("Wait timer finished, current state: ", state)
 		return
 
 	match state:
 		CombatState.WAITING:
+			print("Combat transitioning from WAITING to PLAYER_TURN")
 			state = CombatState.PLAYER_TURN
 			action_selected = false
 			$UI/ActionPrompt.visible = true
+			print("Action prompt should now be visible: ", $UI/ActionPrompt.visible)
 
 		CombatState.PLAYER_TURN:
 			handle_player_turn()
@@ -80,9 +85,13 @@ func handle_enemy_turn():
 	wait_timer = 1.0
 
 func player_attack():
-	var damage = max(1, player.attack - enemy_data.defense + randi_range(-1, 2))
-	enemy_data.hp -= damage
-	enemy_data.hp = max(0, enemy_data.hp)
+	var damage = max(1, player.character_stats.raw_physical_attack - enemy_data.defense + randi_range(-1, 2))
+
+	# Apply damage to enemy
+	if enemy_data.has("reference"):
+		enemy_data.reference.take_damage(damage)
+		# Update enemy_data hp to reflect the current state
+		enemy_data.hp = enemy_data.reference.hp
 
 	add_to_log("You dealt " + str(damage) + " damage!")
 
@@ -96,12 +105,12 @@ func player_attack():
 	update_ui()
 
 func enemy_attack():
-	var damage = max(1, enemy_data.attack - player.defense + randi_range(-1, 2))
+	var damage = max(1, enemy_data.attack - player.character_stats.raw_physical_defense + randi_range(-1, 2))
 	player.take_damage(damage)
 
 	add_to_log(enemy_data.name + " dealt " + str(damage) + " damage!")
 
-	if player.hp <= 0:
+	if player.character_stats.hp <= 0:
 		add_to_log("You were defeated!")
 		state = CombatState.BATTLE_END
 	else:
@@ -124,7 +133,7 @@ func add_to_log(message: String):
 	print("Battle log updated: ", log_text)
 
 func update_ui():
-	$UI/PlayerStats.text = "Player HP: " + str(player.hp) + "/" + str(player.max_hp)
+	$UI/PlayerStats.text = "Player HP: " + str(player.character_stats.hp) + "/" + str(player.character_stats.max_hp)
 	$UI/EnemyStats.text = enemy_data.name + " HP: " + str(enemy_data.hp) + "/" + str(enemy_data.max_hp)
 
 func end_battle():

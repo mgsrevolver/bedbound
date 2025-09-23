@@ -9,10 +9,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_8w3dq")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(512, 384)
-zoom = Vector2(1, 1)
-
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -38,18 +34,30 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="BattleLog" type="RichTextLabel" parent="UI"]
+[node name="UIBackground" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -220.0
+offset_right = 1000.0
+offset_bottom = -20.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="BattleLog" type="Label" parent="UI"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 50.0
-offset_top = -150.0
-offset_right = 600.0
+offset_top = -200.0
+offset_right = 700.0
 offset_bottom = -50.0
-bbcode_enabled = true
+autowrap_mode = 2
+vertical_alignment = 2
 modulate = Color(1, 1, 1, 1)
-color = Color(1, 1, 1, 1)
+text = "Battle Log Here"
 
 [node name="EnemyStats" type="Label" parent="UI"]
 layout_mode = 1
@@ -82,9 +90,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -150.0
-offset_top = -30.0
-offset_right = 150.0
+offset_left = -200.0
+offset_top = -40.0
+offset_right = 200.0
 offset_bottom = -10.0
 text = "Press SPACE to attack"
 horizontal_alignment = 1
