@@ -44,6 +44,11 @@ func setup_conversation_tree():
 
 func _on_area_entered(area):
 	if area.get_parent() is Player:
+		# Check if we're already in dialogue
+		var main_scene = get_tree().get_first_node_in_group("main")
+		if main_scene and main_scene.current_state != main_scene.GameState.OVERWORLD:
+			return
+
 		player_approached.emit()
 		var dialogue_manager = get_tree().get_first_node_in_group("dialogue_manager")
 		if dialogue_manager:

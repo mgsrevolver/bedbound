@@ -78,9 +78,11 @@ func show_conversation_end(response: Dictionary):
 
 func end_dialogue():
 	if dialogue_ui:
+		dialogue_ui.visible = false
 		dialogue_ui.queue_free()
 
-	main_scene.end_dialog()
+	if main_scene:
+		main_scene.end_dialog()
 	current_npc = null
 	dialogue_ended.emit()
 

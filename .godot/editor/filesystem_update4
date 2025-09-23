@@ -1,0 +1,8 @@
+res://scripts/dialogue/DialogueManager.gd
+res://scripts/npcs/NPC.gd
+res://scripts/npcs/VillageElder.gd
+res://scripts/ui/DialogueUI.gd
+res://scenes/ui/DialogueUI.tscn
+res://scenes/ui/DebugOverlay.tscn
+res://scripts/ui/DebugOverlay.gd
+res://scripts/player/Player.gd

@@ -5,8 +5,11 @@ signal interaction_triggered(npc)
 
 var speed: float = 120.0
 var direction: Vector2 = Vector2.DOWN
+var main_scene: Node
 
 func _ready():
+	main_scene = get_tree().get_first_node_in_group("main")
+
 	var texture = ImageTexture.new()
 	var image = Image.create(24, 32, false, Image.FORMAT_RGB8)
 	image.fill(Color(0.29, 0.565, 0.886))
@@ -18,6 +21,11 @@ func _physics_process(delta):
 	move_and_slide()
 
 func handle_movement():
+	# Don't allow movement during dialogue
+	if main_scene and main_scene.current_state != main_scene.GameState.OVERWORLD:
+		velocity = Vector2.ZERO
+		return
+
 	var input_vector = Vector2.ZERO
 
 	if Input.is_action_pressed("move_up"):

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/clayreimus/Documents/projects/**)",
+      "Bash(brew:*)",
+      "Bash(godot:*)",
+      "Bash(open:*)",
+      "Bash(npm config:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
