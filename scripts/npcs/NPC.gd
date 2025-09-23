@@ -24,6 +24,7 @@ var emotional_state: Dictionary = {
 	"comfort_level": 0
 }
 var global_state: GlobalState
+var conversation_cooldown: bool = false
 
 # 3-level conversation system
 var conversation_level: int = 1
@@ -51,24 +52,61 @@ func setup_conversation_tree():
 
 func _on_area_entered(area):
 	if area.get_parent() is Player:
-		# Check if we're already in dialogue
+		# Check if we're already in dialogue or on cooldown
 		var main_scene = get_tree().get_first_node_in_group("main")
 		if main_scene and main_scene.current_state != main_scene.GameState.OVERWORLD:
 			return
 
+		if conversation_cooldown:
+			print("NPC: Conversation on cooldown, ignoring area_entered")
+			return
+
+		print("NPC: Starting new conversation")
+		conversation_cooldown = true
 		player_approached.emit()
 		var dialogue_manager = get_tree().get_first_node_in_group("dialogue_manager")
 		if dialogue_manager:
 			dialogue_manager.start_dialogue(self)
 
 func get_current_dialogue() -> String:
-	# Reset conversation state when starting new dialogue
-	conversation_level = 1
-	level_2_choice = ""
-	level_3_used_options.clear()
-	level_3_available_options.clear()
+	# Only reset if this is a brand new conversation (no previous progress)
+	if conversation_level == 1 and level_2_choice == "" and level_3_used_options.is_empty():
+		# This is a fresh start
+		conversation_level = 1
+		level_2_choice = ""
+		level_3_used_options.clear()
+		level_3_available_options.clear()
+		print("NPC: Starting fresh conversation")
+	else:
+		print("NPC: Resuming conversation at level ", conversation_level, " choice: ", level_2_choice, " used: ", level_3_used_options)
 
-	return conversation_tree.get("level_1", {}).get("text", "Hello there...")
+	# Return appropriate dialogue based on current state
+	match conversation_level:
+		1:
+			return conversation_tree.get("level_1", {}).get("text", "Hello there...")
+		2:
+			# Shouldn't normally be here, but return level 1 text as fallback
+			return conversation_tree.get("level_1", {}).get("text", "Hello there...")
+		3:
+			# At level 3, return continuation text based on level 2 choice
+			var level_2_data = conversation_tree.get("level_1", {}).get("branches", {}).get(level_2_choice, {})
+			return level_2_data.get("text", "Let's continue our conversation...")
+		_:
+			return "Hello there..."
+
+func get_current_options() -> Array[String]:
+	match conversation_level:
+		1:
+			# Level 1: All base options available for first response
+			return ["wait", "acknowledge", "clarify", "reflect"]
+		2:
+			# Level 2: Shouldn't happen, transitions immediately to 3
+			return ["wait", "acknowledge", "clarify", "reflect"]
+		3:
+			# Level 3: Return currently available options
+			return level_3_available_options
+		_:
+			return ["wait", "acknowledge", "clarify", "reflect"]
 
 func process_dialogue_option(option: DialogueManager.DialogueOption) -> Dictionary:
 	var option_key = get_option_key(option)
@@ -93,7 +131,7 @@ func handle_level_2_choice(option_key: String) -> Dictionary:
 	level_2_choice = option_key
 
 	# Set up Level 3 available options (all 4 options, including repeating the choice)
-	var all_options = ["reflect", "acknowledge", "clarify", "wait"]
+	var all_options: Array[String] = ["reflect", "acknowledge", "clarify", "wait"]
 	level_3_available_options = all_options.duplicate()
 	level_3_used_options.clear()
 
@@ -351,5 +389,25 @@ func play_farewell_animation(farewell_type: DeadEndType = DeadEndType.COMFORTABL
 		# Return to original position and make visible again
 		position = original_position
 		modulate = Color.WHITE
+		# Reset conversation completely after farewell - they can start over
+		reset_conversation_state()
+		# Clear conversation cooldown after farewell animation
+		var timer = Timer.new()
+		add_child(timer)
+		timer.wait_time = 1.0  # 1 second cooldown after farewell
+		timer.one_shot = true
+		timer.timeout.connect(func():
+			conversation_cooldown = false
+			print("NPC: Conversation cooldown cleared - conversation reset for new start")
+			timer.queue_free()
+		)
+		timer.start()
 		farewell_complete.emit()
 	)
+
+func reset_conversation_state():
+	conversation_level = 1
+	level_2_choice = ""
+	level_3_used_options.clear()
+	level_3_available_options.clear()
+	print("NPC: Conversation state reset - ready for fresh start")

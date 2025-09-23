@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1758650057
+::res://::1758650126
 claude.md::TextFile::-1::1758632682::0::1::::<><><>0<>0<><>::
 CODE_OF_CONDUCT.md::TextFile::-1::1758589706::0::1::::<><><>0<>0<><>::
 CONTRIBUTING.md::TextFile::-1::1758589706::0::1::::<><><>0<>0<><>::
@@ -343,13 +343,13 @@ ConversationWheel.tscn::PackedScene::7138072496317385098::1758645263::0::1::::<>
 DebugOverlay.tscn::PackedScene::8567879941156834764::1758635381::0::1::::<><><>0<>0<><>::res://scripts/ui/DebugOverlay.gd
 DialogueUI.tscn::PackedScene::3728057034053752121::1758633784::0::1::::<><><>0<>0<><>::res://scripts/ui/DialogueUI.gd
 GameUI.tscn::PackedScene::5392509273520509941::1758589097::0::1::::<><><>0<>0<><>::res://scripts/ui/GameUI.gd
-::res://scripts/::1758650057
+::res://scripts/::1758650126
 Main.gd::GDScript::8650708467692748950::1758633056::0::1::::<>Node2D<><>0<>0<><>::
 ::res://scripts/dialogue/::1758648857
 DialogueManager.gd::GDScript::565937372619046705::1758648855::0::1::::DialogueManager<>Node<><>0<>0<><>::
 GlobalState.gd::GDScript::5347806768337003699::1758634448::0::1::::GlobalState<>Node<><>0<>0<><>::
-::res://scripts/npcs/::1758650028
-NPC.gd::GDScript::1853765707962661118::1758648907::0::1::::NPC<>Area2D<><>0<>0<><>::
+::res://scripts/npcs/::1758650126
+NPC.gd::GDScript::1853765707962661118::1758650124::0::1::::NPC<>Area2D<><>0<>0<><>::
 Paul.gd::GDScript::2761146023792457366::1758650005::0::1::::Paul<>NPC<><>0<>0<><>::
 VillageElder.gd::GDScript::6312049750504179349::1758634547::0::1::::VillageElder<>NPC<><>0<>0<><>::
 ::res://scripts/player/::1758635843

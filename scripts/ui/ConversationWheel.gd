@@ -3,6 +3,7 @@ class_name ConversationWheel
 
 signal option_selected(option: DialogueManager.DialogueOption)
 signal conversation_finished
+signal conversation_left
 
 @onready var dialogue_text: RichTextLabel = $DialoguePanel/DialogueText
 @onready var dialogue_panel: Panel = $DialoguePanel
@@ -10,6 +11,8 @@ signal conversation_finished
 @onready var segment_container: Control = $WheelContainer/SegmentContainer
 @onready var center_point: Control = $WheelContainer/CenterPoint
 @onready var selection_indicator: Control = $SelectionIndicator
+var progress_indicator: Label
+var leave_button: Button
 var animation_tween: Tween
 
 # Wheel configuration
@@ -38,8 +41,12 @@ var base_options = [
 
 var option_segments = []
 var trust_level = 0
+var current_available_options: Array[String] = []
+var conversation_level = 1
+var level_2_choice = ""
 
 func _ready():
+	print("ConversationWheel: _ready() called")
 	add_to_group("dialogue_ui")
 	setup_styling()
 	setup_wheel()
@@ -50,6 +57,27 @@ func setup_styling():
 	var panel_style = StyleBoxFlat.new()
 	panel_style.bg_color = Color(0.2, 0.2, 0.2, 0.8)
 	dialogue_panel.add_theme_stylebox_override("panel", panel_style)
+
+	# Create progress indicator
+	progress_indicator = Label.new()
+	progress_indicator.name = "ProgressIndicator"
+	progress_indicator.add_theme_font_size_override("font_size", 14)
+	progress_indicator.add_theme_color_override("font_color", Color(0.8, 0.8, 0.8))
+	progress_indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	progress_indicator.size = Vector2(300, 30)
+	var screen_size = get_viewport().get_visible_rect().size
+	progress_indicator.position = Vector2(screen_size.x * 0.5 - 150, 20)
+	add_child(progress_indicator)
+
+	# Create Leave button
+	leave_button = Button.new()
+	leave_button.name = "LeaveButton"
+	leave_button.text = "Leave"
+	leave_button.custom_minimum_size = Vector2(80, 40)
+	leave_button.add_theme_font_size_override("font_size", 14)
+	leave_button.position = Vector2(screen_size.x - 100, 20)
+	leave_button.pressed.connect(_on_leave_pressed)
+	add_child(leave_button)
 
 func _input(event):
 	if not visible:
@@ -282,65 +310,65 @@ func select_option_at_position(wheel_local: Vector2):
 	while angle >= 360:
 		angle -= 360
 
-	# Find nearest option from all available segments
-	var nearest_option_data = base_options[0]
+	# Find nearest option from currently visible segments
+	if option_segments.is_empty():
+		return
+
+	var nearest_segment = option_segments[0]
 	var min_distance = 999999
 
-	# Check base options
-	for option_data in base_options:
-		var distance = abs(angle_difference(angle, option_data.angle))
-		if distance < min_distance:
-			min_distance = distance
-			nearest_option_data = option_data
+	# Check all currently visible segments
+	for segment in option_segments:
+		if segment and segment.has_meta("option_data"):
+			var option_data = segment.get_meta("option_data")
+			var distance = abs(angle_difference(angle, option_data.angle))
+			if distance < min_distance:
+				min_distance = distance
+				nearest_segment = segment
 
-	# Check probe option if available
-	if trust_level >= 3:
-		var probe_angle = 45.0
-		var distance = abs(angle_difference(angle, probe_angle))
-		if distance < min_distance:
-			min_distance = distance
-			nearest_option_data = {"option": DialogueManager.DialogueOption.PROBE, "angle": probe_angle}
+	# Update selection based on nearest segment
+	if nearest_segment and nearest_segment.has_meta("option_data"):
+		var option_data = nearest_segment.get_meta("option_data")
+		selected_option = option_data.option
+		target_angle = option_data.angle
 
-	# Update selection
-	selected_option = nearest_option_data.option
-	target_angle = nearest_option_data.angle
-
-	# Smoothly rotate to target
-	if animation_tween:
-		animation_tween.kill()
-	animation_tween = create_tween()
-	animation_tween.tween_method(set_wheel_angle, current_angle, target_angle, 0.3)
+		# Smoothly rotate to target
+		if animation_tween:
+			animation_tween.kill()
+		animation_tween = create_tween()
+		animation_tween.tween_method(set_wheel_angle, current_angle, target_angle, 0.3)
 
 func snap_to_nearest_option():
 	# Find the nearest option to current angle
 	var normalized_angle = fmod(current_angle + 360, 360)
 
-	var nearest_option_data = base_options[0]
+	# Use currently visible segments instead of base options
+	if option_segments.is_empty():
+		return
+
+	var nearest_segment = option_segments[0]
 	var min_distance = 999999
 
-	# Check base options
-	for option_data in base_options:
-		var distance = abs(angle_difference(normalized_angle, option_data.angle))
-		if distance < min_distance:
-			min_distance = distance
-			nearest_option_data = option_data
+	# Check all currently visible segments
+	for segment in option_segments:
+		if segment and segment.has_meta("option_data"):
+			var option_data = segment.get_meta("option_data")
+			var distance = abs(angle_difference(normalized_angle, option_data.angle))
+			if distance < min_distance:
+				min_distance = distance
+				nearest_segment = segment
 
-	# Check probe option if available
-	if trust_level >= 3:
-		var probe_angle = 45.0
-		var distance = abs(angle_difference(normalized_angle, probe_angle))
-		if distance < min_distance:
-			min_distance = distance
-			nearest_option_data = {"option": DialogueManager.DialogueOption.PROBE, "angle": probe_angle}
+	# Update selection based on nearest segment
+	if nearest_segment and nearest_segment.has_meta("option_data"):
+		var option_data = nearest_segment.get_meta("option_data")
+		selected_option = option_data.option
+		target_angle = option_data.angle
 
-	selected_option = nearest_option_data.option
-	target_angle = nearest_option_data.angle
-
-	# Smooth snap animation
-	if animation_tween:
-		animation_tween.kill()
-	animation_tween = create_tween()
-	animation_tween.tween_method(set_wheel_angle, current_angle, target_angle, 0.4)
+		# Smooth snap animation
+		if animation_tween:
+			animation_tween.kill()
+		animation_tween = create_tween()
+		animation_tween.tween_method(set_wheel_angle, current_angle, target_angle, 0.4)
 
 func angle_difference(a1: float, a2: float) -> float:
 	var diff = a1 - a2
@@ -378,12 +406,17 @@ func update_selection_indicator():
 
 func confirm_selection():
 	print("ConversationWheel: Confirming selection: ", selected_option)
-	# Emit the selected option
-	option_selected.emit(selected_option)
+	# Only emit if we're not in an ended state
+	if mouse_filter != Control.MOUSE_FILTER_IGNORE:
+		option_selected.emit(selected_option)
+	else:
+		print("ConversationWheel: Input ignored - conversation ended")
 
 func setup_dialogue(text: String):
+	print("ConversationWheel: setup_dialogue called with: ", text)
 	dialogue_text.text = text
 	reset_wheel_position()
+	update_progress_indicator()
 
 func update_dialogue(text: String, available_options: Array = []):
 	dialogue_text.text = text
@@ -391,13 +424,18 @@ func update_dialogue(text: String, available_options: Array = []):
 	reset_wheel_position()
 	# Update wheel with new options if provided
 	if not available_options.is_empty():
-		# Could customize wheel segments based on available options
-		pass
+		update_available_options(available_options)
+	else:
+		# Show all base options if none specified
+		create_option_segments()
+	update_progress_indicator()
 
 func show_conversation_end(npc_name: String, trust_change: int, total_trust: int, dead_end_type: String = "", farewell_message: String = "", dead_end_type_enum = null):
-	# Hide the wheel during conversation end
+	print("ConversationWheel: show_conversation_end called")
+	# Hide the wheel during conversation end and disable input
 	wheel_container.visible = false
 	selection_indicator.visible = false
+	mouse_filter = Control.MOUSE_FILTER_IGNORE  # Disable all input
 
 	# Show farewell message first if available
 	if farewell_message != "":
@@ -491,3 +529,87 @@ func reset_wheel_position():
 func set_trust_level(level: int):
 	trust_level = level
 	create_option_segments()  # Recreate segments to add/remove probe option
+
+func update_available_options(available_options: Array):
+	# Convert array of strings to our format and filter segments
+	current_available_options.clear()
+	for option in available_options:
+		if option is String:
+			current_available_options.append(option)
+
+	print("ConversationWheel: Available options updated to: ", current_available_options)
+	create_option_segments_filtered()
+
+func create_option_segments_filtered():
+	# Clear existing segments
+	for child in segment_container.get_children():
+		child.queue_free()
+	option_segments.clear()
+
+	if current_available_options.is_empty():
+		# Hide wheel entirely when no options available
+		wheel_container.visible = false
+		selection_indicator.visible = false
+		print("ConversationWheel: No options available - hiding wheel")
+		return
+	else:
+		# Show wheel when options are available
+		wheel_container.visible = true
+		selection_indicator.visible = true
+
+	var angle_step = 360.0 / current_available_options.size()
+	var current_angle = 0.0
+
+	# Create segments only for available options
+	for option_str in current_available_options:
+		var option_data = get_option_data_from_string(option_str)
+		if option_data:
+			# Update angle to distribute evenly
+			option_data["angle"] = current_angle
+			var segment = create_option_segment(option_data)
+			option_segments.append(segment)
+			current_angle += angle_step
+
+func get_option_data_from_string(option_str: String) -> Dictionary:
+	match option_str:
+		"wait":
+			return {"option": DialogueManager.DialogueOption.WAIT, "label": "Wait"}
+		"acknowledge":
+			return {"option": DialogueManager.DialogueOption.ACKNOWLEDGE, "label": "Acknowledge"}
+		"clarify":
+			return {"option": DialogueManager.DialogueOption.CLARIFY, "label": "Clarify"}
+		"reflect":
+			return {"option": DialogueManager.DialogueOption.REFLECT, "label": "Reflect"}
+		"probe":
+			return {"option": DialogueManager.DialogueOption.PROBE, "label": "Probe"}
+		_:
+			return {}
+
+func update_conversation_state(level: int, choice: String = "", used_options: Array = []):
+	conversation_level = level
+	level_2_choice = choice
+	print("ConversationWheel: State updated - Level: ", level, " Choice: ", choice, " Used options: ", used_options)
+	update_progress_indicator()
+
+func update_progress_indicator():
+	if not progress_indicator:
+		return
+
+	var text = ""
+	match conversation_level:
+		1:
+			text = "Initial Sharing - Listen and respond"
+		2:
+			text = "First Response - Choose your approach"
+		3:
+			var remaining = current_available_options.size()
+			if level_2_choice != "":
+				text = "Deep Listening (%s path) - %d options remaining" % [level_2_choice.capitalize(), remaining]
+			else:
+				text = "Deep Listening - %d options available" % remaining
+
+	progress_indicator.text = text
+
+func _on_leave_pressed():
+	print("ConversationWheel: Leave button pressed")
+	conversation_left.emit()
