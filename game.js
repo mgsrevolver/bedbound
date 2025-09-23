@@ -5,6 +5,7 @@ class Game {
         this.gameState = 'overworld'; // overworld, combat, menu
 
         this.keys = {};
+        this.keysPressed = {};
         this.lastTime = 0;
 
         this.tileSize = 32;
@@ -19,6 +20,9 @@ class Game {
 
     setupEventListeners() {
         window.addEventListener('keydown', (e) => {
+            if (!this.keys[e.key]) {
+                this.keysPressed[e.key] = true;
+            }
             this.keys[e.key] = true;
             e.preventDefault();
         });
@@ -63,7 +67,7 @@ class Game {
                 }
             });
         } else if (this.gameState === 'combat') {
-            this.combat.update(deltaTime, this.keys);
+            this.combat.update(deltaTime, this.keys, this.keysPressed);
 
             if (this.combat.battleEnded) {
                 this.gameState = 'overworld';
@@ -74,6 +78,9 @@ class Game {
                 this.combat.reset();
             }
         }
+
+        // Clear pressed keys after processing
+        this.keysPressed = {};
     }
 
     render() {
@@ -292,14 +299,14 @@ class Combat {
         this.waitTime = 1000;
     }
 
-    update(deltaTime, keys) {
+    update(deltaTime, keys, keysPressed) {
         if (this.waitTime > 0) {
             this.waitTime -= deltaTime;
             return;
         }
 
         if (this.turn === 'player' && !this.actionSelected) {
-            if (keys[' ']) { // Spacebar to attack
+            if (keysPressed[' ']) { // Spacebar to attack
                 this.playerAttack();
                 this.actionSelected = true;
                 this.waitTime = 1000;
@@ -328,7 +335,6 @@ class Combat {
         this.battleLog.push(`You dealt ${damage} damage!`);
 
         this.turn = 'enemy';
-        this.actionSelected = false;
     }
 
     enemyAttack() {
@@ -338,6 +344,7 @@ class Combat {
         this.battleLog.push(`${this.currentEnemy.name} dealt ${damage} damage!`);
 
         this.turn = 'player';
+        this.actionSelected = false;
     }
 
     render(ctx) {

@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci3f3s5vdpyj2"]
+
+[ext_resource type="Script" path="res://scripts/ui/GameUI.gd" id="1_j3qls"]
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("1_j3qls")
+
+[node name="PlayerStatsPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -120.0
+offset_right = 200.0
+offset_bottom = -10.0
+
+[node name="StatsContainer" type="VBoxContainer" parent="PlayerStatsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+
+[node name="HPLabel" type="Label" parent="PlayerStatsPanel/StatsContainer"]
+layout_mode = 2
+text = "HP: 20/20"
+
+[node name="LevelLabel" type="Label" parent="PlayerStatsPanel/StatsContainer"]
+layout_mode = 2
+text = "Level: 1"
+
+[node name="EXPLabel" type="Label" parent="PlayerStatsPanel/StatsContainer"]
+layout_mode = 2
+text = "EXP: 0"
+
+[node name="Instructions" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 400.0
+offset_bottom = 60.0
+text = "Use WASD or Arrow Keys to move
+Walk into enemies to battle!"

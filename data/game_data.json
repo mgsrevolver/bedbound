@@ -1,0 +1,31 @@
+{
+  "enemies": {
+    "Goon": {
+      "hp": 8,
+      "attack": 3,
+      "defense": 1,
+      "exp_reward": 15,
+      "color": [0.545, 0.271, 0.075]
+    },
+    "Crow": {
+      "hp": 12,
+      "attack": 4,
+      "defense": 2,
+      "exp_reward": 25,
+      "color": [0.184, 0.184, 0.184]
+    }
+  },
+  "player": {
+    "starting_level": 1,
+    "starting_hp": 20,
+    "starting_attack": 5,
+    "starting_defense": 2,
+    "starting_exp": 0,
+    "exp_to_next": 100
+  },
+  "world": {
+    "tile_size": 32,
+    "map_width": 40,
+    "map_height": 30
+  }
+}

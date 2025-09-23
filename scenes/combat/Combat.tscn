@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3 uid="uid://clk8txdno4u7e"]
+
+[ext_resource type="Script" path="res://scripts/combat/Combat.gd" id="1_8w3dq"]
+
+[node name="Combat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_8w3dq")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.294, 0, 0.51, 1)
+
+[node name="BattleArea" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PlayerSprite" type="Sprite2D" parent="BattleArea"]
+position = Vector2(200, 500)
+
+[node name="EnemySprite" type="Sprite2D" parent="BattleArea"]
+position = Vector2(800, 300)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BattleLog" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -150.0
+offset_right = 600.0
+offset_bottom = -50.0
+bbcode_enabled = true
+
+[node name="EnemyStats" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 100.0
+text = "Enemy HP: 0/0"
+
+[node name="PlayerStats" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -50.0
+offset_right = 300.0
+offset_bottom = -20.0
+text = "Player HP: 0/0"
+
+[node name="ActionPrompt" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -30.0
+offset_right = 150.0
+offset_bottom = -10.0
+text = "Press SPACE to attack"
+horizontal_alignment = 1

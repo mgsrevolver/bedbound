@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpx7f3y1n8y8o"]
+
+[ext_resource type="Script" path="res://scripts/player/Player.gd" id="1_mn7fj"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_mn7fj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.29, 0.565, 0.886, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="InteractionCollision" type="CollisionShape2D" parent="InteractionArea"]
