@@ -106,6 +106,10 @@ func show_conversation_end(response: Dictionary):
 
 func _on_conversation_left():
 	print("DialogueManager: Player left conversation - saving state")
+	# Clear the conversation cooldown when leaving early
+	if current_npc:
+		current_npc.conversation_cooldown = false
+		print("DialogueManager: Cleared conversation cooldown for early exit")
 	# Save current conversation state in the NPC (it's already saved)
 	# Just exit to overworld without resetting NPC state
 	end_dialogue()

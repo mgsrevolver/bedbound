@@ -82,10 +82,10 @@ func setup_styling():
 	leave_button.pressed.connect(_on_leave_pressed)
 	add_child(leave_button)
 
-	# Create NPC portrait in middle area
+	# Create NPC portrait in upper middle area (after debug panel)
 	npc_portrait = Control.new()
 	npc_portrait.name = "NPCPortrait"
-	npc_portrait.position = Vector2(screen_size.x * 0.5, screen_size.y * 0.4)
+	npc_portrait.position = Vector2(screen_size.x * 0.5, 120)  # Fixed position below debug panel
 	add_child(npc_portrait)
 
 	# Create portrait sprite (will be updated when NPC is set)
@@ -131,10 +131,10 @@ func _process(delta):
 			update_selection_indicator()
 
 func setup_wheel():
-	# Set up the wheel in the bottom area, below the NPC portrait area
+	# Set up the wheel at the bottom, with proper spacing
 	var screen_size = get_viewport().get_visible_rect().size
-	# Position wheel in bottom area - below debug (60px) + portrait area (~200px) + margin
-	var wheel_center = Vector2(screen_size.x * 0.5, screen_size.y * 0.75)
+	# Position wheel at bottom with margin for leave button
+	var wheel_center = Vector2(screen_size.x * 0.5, screen_size.y - 200)  # 200px from bottom
 
 	wheel_container.position = wheel_center
 	selection_indicator.position = wheel_center
@@ -531,9 +531,9 @@ func show_conversation_summary(npc_name: String, trust_change: int, total_trust:
 	continue_button.custom_minimum_size = Vector2(150, 60)
 	continue_button.add_theme_font_size_override("font_size", 18)
 
-	# Position button in center where wheel was
+	# Position continue button where wheel was
 	var screen_size = get_viewport().get_visible_rect().size
-	var center_pos = Vector2(screen_size.x * 0.5, screen_size.y * 0.35)
+	var center_pos = Vector2(screen_size.x * 0.5, screen_size.y - 200)  # Same as wheel position
 	continue_button.position = center_pos - continue_button.custom_minimum_size * 0.5
 
 	continue_button.pressed.connect(func():
