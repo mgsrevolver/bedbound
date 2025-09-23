@@ -85,15 +85,16 @@ modulate = Color(1, 1, 1, 1)
 
 [node name="ActionPrompt" type="Label" parent="UI"]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -200.0
-offset_top = -40.0
-offset_right = 200.0
-offset_bottom = -10.0
-text = "Press SPACE to attack"
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = 200.0
+offset_right = 400.0
+offset_bottom = 280.0
+text = ">>> PRESS SPACE TO ATTACK! <<<"
 horizontal_alignment = 1
-modulate = Color(1, 1, 1, 1)
+vertical_alignment = 1
+modulate = Color(1, 1, 0, 1)

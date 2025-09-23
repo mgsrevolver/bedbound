@@ -50,6 +50,14 @@ func setup_default_stats():
 	character_stats.dexterity = 8
 	character_stats.intelligence = 6
 
+	print("Player RPG stats initialized:")
+	print("  Level: ", character_stats.level)
+	print("  HP: ", character_stats.hp, "/", character_stats.max_hp)
+	print("  Attack: ", character_stats.raw_physical_attack)
+	print("  Defense: ", character_stats.raw_physical_defense)
+	print("  Strength: ", character_stats.strength)
+	print("  Constitution: ", character_stats.constitution)
+
 func _physics_process(delta):
 	if in_combat:
 		return

@@ -36,6 +36,8 @@ func setup(enemy_type: String, pos: Vector2):
 			exp_reward = 25
 			create_sprite(Color(0.184, 0.184, 0.184))  # Dark gray
 
+	print("Enemy created: ", enemy_name, " with HP: ", hp, "/", max_hp, " Attack: ", attack, " Defense: ", defense)
+
 	# Connect health component signals (will be added back later)
 	# health_component.died.connect(_on_enemy_died)
 
@@ -56,11 +58,13 @@ func create_sprite(color: Color):
 	center_texture.set_image(center_image)
 
 func _on_body_entered(body):
-	print("Enemy collision detected with: ", body.name)
+	print("Enemy collision detected with: ", body.name, " of type: ", body.get_class())
 	if body is Player and not defeated:
 		print("Player collision confirmed, triggering combat with ", enemy_name)
 		var enemy_data = get_enemy_data()
 		player_collided.emit(enemy_data)
+	else:
+		print("Collision ignored - not a player or enemy is defeated. Body type: ", body.get_class(), " defeated: ", defeated)
 
 func get_enemy_data() -> Dictionary:
 	return {

@@ -25,6 +25,8 @@ func setup_battle(player_ref: Player, enemy_info: Dictionary):
 	player = player_ref
 	enemy_data = enemy_info.duplicate()
 
+	print("Combat started: Player (HP: ", player.character_stats.hp, "/", player.character_stats.max_hp, ") vs ", enemy_data.name, " (HP: ", enemy_data.hp, "/", enemy_data.max_hp, ")")
+
 	# Create player sprite in combat
 	var player_texture = ImageTexture.new()
 	var player_image = Image.create(48, 64, false, Image.FORMAT_RGB8)
@@ -45,6 +47,21 @@ func setup_battle(player_ref: Player, enemy_info: Dictionary):
 	state = CombatState.WAITING
 	wait_timer = 1.0
 	$UI/ActionPrompt.visible = false
+
+	# Make ActionPrompt SUPER visible
+	$UI/ActionPrompt.add_theme_font_size_override("font_size", 48)
+	$UI/ActionPrompt.modulate = Color.YELLOW
+
+	# Make other UI elements more visible
+	$UI/BattleLog.add_theme_font_size_override("font_size", 18)
+	$UI/BattleLog.modulate = Color.WHITE
+
+	$UI/PlayerStats.add_theme_font_size_override("font_size", 20)
+	$UI/PlayerStats.modulate = Color.CYAN
+
+	$UI/EnemyStats.add_theme_font_size_override("font_size", 20)
+	$UI/EnemyStats.modulate = Color.RED
+
 	update_ui()
 
 	print("Combat scene setup complete - battle log should show: ", battle_log)
@@ -62,7 +79,8 @@ func _process(delta):
 			state = CombatState.PLAYER_TURN
 			action_selected = false
 			$UI/ActionPrompt.visible = true
-			print("Action prompt should now be visible: ", $UI/ActionPrompt.visible)
+			$UI/ActionPrompt.text = ">>> PRESS SPACE TO ATTACK! <<<"
+			print("Action prompt now visible: ", $UI/ActionPrompt.visible, " with text: ", $UI/ActionPrompt.text)
 
 		CombatState.PLAYER_TURN:
 			handle_player_turn()
@@ -75,10 +93,12 @@ func _process(delta):
 
 func handle_player_turn():
 	if not action_selected and Input.is_action_just_pressed("interact"):
+		print("Player pressed SPACE to attack!")
 		player_attack()
 		action_selected = true
 		$UI/ActionPrompt.visible = false
 		wait_timer = 1.0
+	# Keep the main prompt visible and don't override it with debug text
 
 func handle_enemy_turn():
 	enemy_attack()
