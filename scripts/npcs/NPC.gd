@@ -15,6 +15,7 @@ var npc_name: String
 var dialogue_state: Dictionary = {}
 var conversation_tree: Dictionary = {}
 var trust_level: int = 0
+var last_trust_change: int = 0
 var emotional_state: Dictionary = {
 	"beats_hit": [],
 	"conversation_depth": 0,
@@ -85,6 +86,7 @@ func get_option_key(option: DialogueManager.DialogueOption) -> String:
 
 func process_response(response_data: Dictionary, option: DialogueManager.DialogueOption) -> Dictionary:
 	var trust_change = response_data.get("trust_change", 0)
+	last_trust_change = trust_change
 	trust_level += trust_change
 	if global_state:
 		global_state.update_npc_trust(npc_name, trust_change)
@@ -127,8 +129,13 @@ func get_contextual_default(option: DialogueManager.DialogueOption) -> Dictionar
 func get_fallback_response(option: DialogueManager.DialogueOption) -> Dictionary:
 	return get_contextual_default(option)
 
+func get_last_trust_change() -> int:
+	return last_trust_change
+
 func handle_say_nothing() -> Dictionary:
-	trust_level += 1
+	var trust_change = 1
+	last_trust_change = trust_change
+	trust_level += trust_change
 
 	if emotional_state.comfort_level >= 3:
 		return {
@@ -152,7 +159,9 @@ func handle_say_nothing() -> Dictionary:
 		}
 
 func handle_nod() -> Dictionary:
-	trust_level += 1
+	var trust_change = 1
+	last_trust_change = trust_change
+	trust_level += trust_change
 	emotional_state.comfort_level += 1
 
 	if "understanding" in emotional_state.beats_hit:
@@ -192,7 +201,9 @@ func handle_ask_why() -> Dictionary:
 		}
 
 func handle_repeat_back() -> Dictionary:
-	trust_level += 2
+	var trust_change = 2
+	last_trust_change = trust_change
+	trust_level += trust_change
 	emotional_state.beats_hit.append("understanding")
 
 	if emotional_state.conversation_depth >= 2:
