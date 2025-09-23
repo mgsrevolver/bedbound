@@ -13,6 +13,9 @@ signal conversation_left
 @onready var selection_indicator: Control = $SelectionIndicator
 var progress_indicator: Label
 var leave_button: Button
+var npc_portrait: Control
+var npc_portrait_sprite: Sprite2D
+var npc_name_label: Label
 var animation_tween: Tween
 
 # Wheel configuration
@@ -69,15 +72,35 @@ func setup_styling():
 	progress_indicator.position = Vector2(screen_size.x * 0.5 - 150, 20)
 	add_child(progress_indicator)
 
-	# Create Leave button
+	# Create Leave button in bottom area
 	leave_button = Button.new()
 	leave_button.name = "LeaveButton"
 	leave_button.text = "Leave"
 	leave_button.custom_minimum_size = Vector2(80, 40)
 	leave_button.add_theme_font_size_override("font_size", 14)
-	leave_button.position = Vector2(screen_size.x - 100, 20)
+	leave_button.position = Vector2(screen_size.x - 100, screen_size.y - 60)
 	leave_button.pressed.connect(_on_leave_pressed)
 	add_child(leave_button)
+
+	# Create NPC portrait in middle area
+	npc_portrait = Control.new()
+	npc_portrait.name = "NPCPortrait"
+	npc_portrait.position = Vector2(screen_size.x * 0.5, screen_size.y * 0.4)
+	add_child(npc_portrait)
+
+	# Create portrait sprite (will be updated when NPC is set)
+	npc_portrait_sprite = Sprite2D.new()
+	npc_portrait_sprite.scale = Vector2(3, 3)  # Larger for portrait view
+	npc_portrait.add_child(npc_portrait_sprite)
+
+	# Create NPC name label
+	npc_name_label = Label.new()
+	npc_name_label.add_theme_font_size_override("font_size", 20)
+	npc_name_label.add_theme_color_override("font_color", Color.WHITE)
+	npc_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	npc_name_label.size = Vector2(200, 30)
+	npc_name_label.position = Vector2(-100, 50)  # Below the sprite
+	npc_portrait.add_child(npc_name_label)
 
 func _input(event):
 	if not visible:
@@ -108,10 +131,10 @@ func _process(delta):
 			update_selection_indicator()
 
 func setup_wheel():
-	# Set up the wheel in upper portion of screen, avoiding dialogue panel
+	# Set up the wheel in the bottom area, below the NPC portrait area
 	var screen_size = get_viewport().get_visible_rect().size
-	# Position wheel in upper half, leaving space for dialogue panel at bottom
-	var wheel_center = Vector2(screen_size.x * 0.5, screen_size.y * 0.35)
+	# Position wheel in bottom area - below debug (60px) + portrait area (~200px) + margin
+	var wheel_center = Vector2(screen_size.x * 0.5, screen_size.y * 0.75)
 
 	wheel_container.position = wheel_center
 	selection_indicator.position = wheel_center
@@ -417,6 +440,14 @@ func setup_dialogue(text: String):
 	dialogue_text.text = text
 	reset_wheel_position()
 	update_progress_indicator()
+
+func setup_npc_portrait(npc: NPC):
+	if npc and npc_name_label:
+		npc_name_label.text = npc.npc_name
+		# Copy the NPC's sprite texture for the portrait
+		var npc_sprite = npc.get_node("Sprite2D")
+		if npc_sprite and npc_portrait_sprite:
+			npc_portrait_sprite.texture = npc_sprite.texture
 
 func update_dialogue(text: String, available_options: Array = []):
 	dialogue_text.text = text

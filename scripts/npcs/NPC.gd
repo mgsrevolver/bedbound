@@ -139,11 +139,16 @@ func handle_level_2_choice(option_key: String) -> Dictionary:
 	var level_2_data = conversation_tree.get("level_1", {}).get("branches", {}).get(option_key, {})
 	var response_text = level_2_data.get("text", get_contextual_default_text(option_key))
 
+	# Apply trust changes
+	var trust_change = level_2_data.get("trust_change", 0)
+	apply_trust_change(trust_change)
+	update_conversation_depth()
+
 	return {
 		"text": response_text,
 		"continues": true,
 		"options": level_3_available_options,
-		"trust_change": level_2_data.get("trust_change", 0)
+		"trust_change": trust_change
 	}
 
 func handle_level_3_choice(option_key: String) -> Dictionary:
@@ -158,6 +163,11 @@ func handle_level_3_choice(option_key: String) -> Dictionary:
 	var level_3_data = conversation_tree.get("level_1", {}).get("branches", {}).get(level_2_choice, {}).get("level_3", {}).get(option_key, {})
 	var response_text = level_3_data.get("text", get_contextual_default_text(option_key))
 
+	# Apply trust changes
+	var trust_change = level_3_data.get("trust_change", 1)
+	apply_trust_change(trust_change)
+	update_conversation_depth()
+
 	# Check if all options exhausted
 	if level_3_available_options.is_empty():
 		# Conversation complete - trigger graceful end
@@ -165,7 +175,7 @@ func handle_level_3_choice(option_key: String) -> Dictionary:
 			"text": response_text,
 			"continues": false,
 			"options": [],
-			"trust_change": level_3_data.get("trust_change", 1),
+			"trust_change": trust_change,
 			"dead_end_type": DeadEndType.COMFORTABLE_CONCLUSION,
 			"farewell": "Thank you for listening so carefully. I feel truly heard."
 		}
@@ -175,7 +185,7 @@ func handle_level_3_choice(option_key: String) -> Dictionary:
 			"text": response_text,
 			"continues": true,
 			"options": level_3_available_options,
-			"trust_change": level_3_data.get("trust_change", 1)
+			"trust_change": trust_change
 		}
 
 func get_contextual_default_text(option_key: String) -> String:
@@ -411,3 +421,14 @@ func reset_conversation_state():
 	level_3_used_options.clear()
 	level_3_available_options.clear()
 	print("NPC: Conversation state reset - ready for fresh start")
+
+func apply_trust_change(trust_change: int):
+	last_trust_change = trust_change
+	trust_level += trust_change
+	if global_state:
+		global_state.update_npc_trust(npc_name, trust_change)
+	print("NPC: Trust updated by %d, total: %d" % [trust_change, trust_level])
+
+func update_conversation_depth():
+	emotional_state.conversation_depth += 1
+	print("NPC: Conversation depth: %d" % emotional_state.conversation_depth)

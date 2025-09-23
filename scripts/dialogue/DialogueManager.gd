@@ -44,6 +44,7 @@ func start_dialogue(npc: NPC):
 	)
 	var initial_options = npc.get_current_options()
 	dialogue_ui.setup_dialogue(npc.get_current_dialogue())
+	dialogue_ui.setup_npc_portrait(npc)
 	dialogue_ui.update_available_options(initial_options)
 
 	if debug_overlay:
