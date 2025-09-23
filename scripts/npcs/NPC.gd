@@ -237,6 +237,7 @@ func handle_repeat_back() -> Dictionary:
 		}
 
 func play_farewell_animation(farewell_type: DeadEndType = DeadEndType.COMFORTABLE_CONCLUSION):
+	var original_position = position
 	var tween = create_tween()
 	tween.set_parallel(true)
 
@@ -261,4 +262,9 @@ func play_farewell_animation(farewell_type: DeadEndType = DeadEndType.COMFORTABL
 			tween.tween_property(self, "position", position + direction * 40, 1.0)
 			tween.tween_property(self, "modulate", Color.TRANSPARENT, 1.2)
 
-	tween.finished.connect(func(): farewell_complete.emit())
+	tween.finished.connect(func():
+		# Return to original position and make visible again
+		position = original_position
+		modulate = Color.WHITE
+		farewell_complete.emit()
+	)
