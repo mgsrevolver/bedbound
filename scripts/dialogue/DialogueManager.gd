@@ -7,11 +7,12 @@ enum DialogueOption {
 	SAY_NOTHING,
 	NOD,
 	ASK_WHY,
-	REPEAT_BACK
+	REPEAT_BACK,
+	PROBE
 }
 
 var current_npc: NPC
-var dialogue_ui: DialogueUI
+var dialogue_ui: Control
 var debug_overlay: DebugOverlay
 var main_scene: Node
 
@@ -24,7 +25,7 @@ func start_dialogue(npc: NPC):
 	current_npc = npc
 	main_scene.start_dialog()
 
-	dialogue_ui = preload("res://scenes/ui/DialogueUI.tscn").instantiate()
+	dialogue_ui = preload("res://scenes/ui/ConversationWheel.tscn").instantiate()
 
 	var ui_layer = get_tree().current_scene.get_node("UI")
 	if ui_layer:
@@ -34,6 +35,7 @@ func start_dialogue(npc: NPC):
 
 	dialogue_ui.option_selected.connect(_on_option_selected)
 	dialogue_ui.conversation_finished.connect(end_dialogue)
+	dialogue_ui.set_trust_level(npc.trust_level)
 	dialogue_ui.setup_dialogue(npc.get_current_dialogue())
 
 	if debug_overlay:

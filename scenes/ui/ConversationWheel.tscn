@@ -1,0 +1,120 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8x0am4n7p5q1"]
+
+[ext_resource type="Script" path="res://scripts/ui/ConversationWheel.gd" id="1_wheel"]
+
+[node name="ConversationWheel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_wheel")
+
+[node name="DialoguePanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -200.0
+offset_right = 350.0
+offset_bottom = -10.0
+grow_vertical = 0
+
+[node name="DialogueText" type="RichTextLabel" parent="DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+bbcode_enabled = true
+text = "NPC dialogue appears here..."
+
+[node name="WheelContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WheelBackground" type="Control" parent="WheelContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = -130.0
+offset_right = 130.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundCircle" type="ColorRect" parent="WheelContainer/WheelBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.2, 0.2, 0.3, 0.8)
+
+[node name="SegmentContainer" type="Control" parent="WheelContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterPoint" type="Control" parent="WheelContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterCircle" type="ColorRect" parent="WheelContainer/CenterPoint"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.4, 0.4, 0.5, 0.9)
+
+[node name="SelectionIndicator" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IndicatorLine" type="ColorRect" parent="SelectionIndicator"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -80.0
+offset_right = 2.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 0.5, 0.9)

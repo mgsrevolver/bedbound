@@ -10,7 +10,11 @@
       "Bash(find:*)",
       "Bash(tee:*)",
       "Bash(timeout:*)",
-      "Bash(gtimeout:*)"
+      "Bash(gtimeout:*)",
+      "Read(//Users/clayreimus/**)",
+      "Bash(gh repo fork:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
