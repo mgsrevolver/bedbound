@@ -72,9 +72,40 @@ func clear_options():
 	for child in option_container.get_children():
 		child.queue_free()
 
-func show_conversation_end(npc_name: String, trust_change: int, total_trust: int, dead_end_type: String = ""):
+func show_conversation_end(npc_name: String, trust_change: int, total_trust: int, dead_end_type: String = "", farewell_message: String = "", dead_end_type_enum = null):
 	clear_options()
 
+	# Show farewell message first if available
+	if farewell_message != "":
+		dialogue_text.text = "[i]%s[/i]\n\n\"%s\"" % [npc_name, farewell_message]
+
+		# Create a timer to show the summary after farewell
+		var timer = Timer.new()
+		add_child(timer)
+		timer.wait_time = 2.5
+		timer.one_shot = true
+		timer.timeout.connect(func():
+			show_conversation_summary(npc_name, trust_change, total_trust, dead_end_type, dead_end_type_enum)
+			timer.queue_free()
+		)
+		timer.start()
+
+		# Start NPC departure animation after a short delay
+		var departure_timer = Timer.new()
+		add_child(departure_timer)
+		departure_timer.wait_time = 1.0
+		departure_timer.one_shot = true
+		departure_timer.timeout.connect(func():
+			var dialogue_manager = get_tree().get_first_node_in_group("dialogue_manager")
+			if dialogue_manager and dialogue_manager.current_npc:
+				dialogue_manager.current_npc.play_farewell_animation(dead_end_type_enum if dead_end_type_enum != null else NPC.DeadEndType.COMFORTABLE_CONCLUSION)
+			departure_timer.queue_free()
+		)
+		departure_timer.start()
+	else:
+		show_conversation_summary(npc_name, trust_change, total_trust, dead_end_type, dead_end_type_enum)
+
+func show_conversation_summary(npc_name: String, trust_change: int, total_trust: int, dead_end_type: String = "", dead_end_type_enum = null):
 	var end_message = "Conversation with %s ended." % npc_name
 	var trust_message = ""
 

@@ -54,11 +54,14 @@ func show_conversation_end(response: Dictionary):
 	var trust_change = current_npc.get_last_trust_change()
 	var total_trust = current_npc.trust_level
 	var dead_end_type = response.get("dead_end_type", null)
+	var farewell_message = response.get("farewell", "")
 
 	# Convert enum to string if needed
 	var dead_end_type_string = ""
+	var dead_end_type_enum = null
 	if dead_end_type != null:
 		if dead_end_type is int:
+			dead_end_type_enum = dead_end_type
 			# Convert enum value to string
 			match dead_end_type:
 				NPC.DeadEndType.GENTLE_DEFLECTION:
@@ -74,7 +77,7 @@ func show_conversation_end(response: Dictionary):
 		else:
 			dead_end_type_string = str(dead_end_type)
 
-	dialogue_ui.show_conversation_end(current_npc.npc_name, trust_change, total_trust, dead_end_type_string)
+	dialogue_ui.show_conversation_end(current_npc.npc_name, trust_change, total_trust, dead_end_type_string, farewell_message, dead_end_type_enum)
 
 func end_dialogue():
 	if dialogue_ui:

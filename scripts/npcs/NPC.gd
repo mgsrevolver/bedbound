@@ -2,6 +2,7 @@ extends Area2D
 class_name NPC
 
 signal player_approached
+signal farewell_complete
 
 enum DeadEndType {
 	GENTLE_DEFLECTION,
@@ -144,23 +145,26 @@ func handle_say_nothing() -> Dictionary:
 
 	if emotional_state.comfort_level >= 3:
 		return {
-			"text": "This comfortable silence... it feels like understanding.",
+			"text": "This comfortable silence... it feels like understanding. I'll carry this with me.",
 			"continues": false,
 			"options": [],
-			"type": DeadEndType.COMFORTABLE_CONCLUSION
+			"type": DeadEndType.COMFORTABLE_CONCLUSION,
+			"farewell": "Thank you for listening. Until next time."
 		}
 	elif trust_level >= 5:
 		return {
-			"text": "You don't need to fill every silence. I appreciate that.",
+			"text": "You don't need to fill every silence. I appreciate that more than you know.",
 			"continues": false,
 			"options": [],
-			"type": DeadEndType.BREAKTHROUGH_MOMENT
+			"type": DeadEndType.BREAKTHROUGH_MOMENT,
+			"farewell": "Take care of yourself. You have a gift for understanding."
 		}
 	else:
 		return {
 			"text": "You listen quietly...",
 			"continues": false,
-			"options": []
+			"options": [],
+			"farewell": "Well, I should get going. See you around."
 		}
 
 func handle_nod() -> Dictionary:
@@ -174,13 +178,15 @@ func handle_nod() -> Dictionary:
 			"text": "Yes... you really do see it the same way I do.",
 			"continues": false,
 			"options": [],
-			"type": DeadEndType.BREAKTHROUGH_MOMENT
+			"type": DeadEndType.BREAKTHROUGH_MOMENT,
+			"farewell": "I feel lighter now. Thank you for truly seeing me."
 		}
 	else:
 		return {
 			"text": "Yes... exactly...",
 			"continues": false,
-			"options": []
+			"options": [],
+			"farewell": "I'm glad we understand each other. Take care."
 		}
 
 func handle_ask_why() -> Dictionary:
@@ -189,20 +195,23 @@ func handle_ask_why() -> Dictionary:
 			"text": "That's... quite personal. Perhaps when we know each other better.",
 			"continues": false,
 			"options": [],
-			"type": DeadEndType.TRUST_INSUFFICIENT
+			"type": DeadEndType.TRUST_INSUFFICIENT,
+			"farewell": "Maybe another time. I need some space to think."
 		}
 	elif "protective" in emotional_state.beats_hit:
 		return {
 			"text": "Some stories aren't mine to tell, but I appreciate your curiosity.",
 			"continues": false,
 			"options": [],
-			"type": DeadEndType.PROTECTIVE_BOUNDARY
+			"type": DeadEndType.PROTECTIVE_BOUNDARY,
+			"farewell": "I hope you understand. Take care of yourself."
 		}
 	else:
 		return {
 			"text": "Well, because...",
 			"continues": false,
-			"options": []
+			"options": [],
+			"farewell": "I've given you something to think about. Until next time."
 		}
 
 func handle_repeat_back() -> Dictionary:
@@ -216,11 +225,40 @@ func handle_repeat_back() -> Dictionary:
 			"text": "Yes, those exact words... you truly hear me. Thank you.",
 			"continues": false,
 			"options": [],
-			"type": DeadEndType.BREAKTHROUGH_MOMENT
+			"type": DeadEndType.BREAKTHROUGH_MOMENT,
+			"farewell": "I won't forget this moment. You have a rare gift."
 		}
 	else:
 		return {
 			"text": "That's right... you understand...",
 			"continues": false,
-			"options": []
+			"options": [],
+			"farewell": "It means a lot to be heard. Thank you."
 		}
+
+func play_farewell_animation(farewell_type: DeadEndType = DeadEndType.COMFORTABLE_CONCLUSION):
+	var tween = create_tween()
+	tween.set_parallel(true)
+
+	match farewell_type:
+		DeadEndType.BREAKTHROUGH_MOMENT:
+			# Gentle fade with a slight upward movement (feeling lighter)
+			tween.tween_property(self, "position", position + Vector2(0, -10), 0.8)
+			tween.tween_property(self, "modulate", Color.TRANSPARENT, 1.0)
+		DeadEndType.COMFORTABLE_CONCLUSION:
+			# Peaceful walk away
+			var direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+			tween.tween_property(self, "position", position + direction * 50, 1.2)
+			tween.tween_property(self, "modulate", Color.TRANSPARENT, 1.5)
+		DeadEndType.TRUST_INSUFFICIENT, DeadEndType.PROTECTIVE_BOUNDARY:
+			# Quick, somewhat distant departure
+			var direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+			tween.tween_property(self, "position", position + direction * 30, 0.6)
+			tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.8)
+		_:
+			# Default gentle departure
+			var direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+			tween.tween_property(self, "position", position + direction * 40, 1.0)
+			tween.tween_property(self, "modulate", Color.TRANSPARENT, 1.2)
+
+	tween.finished.connect(func(): farewell_complete.emit())
