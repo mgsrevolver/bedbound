@@ -32,6 +32,10 @@ var level_2_choice: String = ""
 var level_3_used_options: Array[String] = []
 var level_3_available_options: Array[String] = []
 
+# Track if all dialogue has been exhausted
+var conversation_exhausted: bool = false
+var exhausted_response: String = "..."  # Default, should be overridden by each NPC
+
 func setup(name: String, pos: Vector2, color: Color = Color.GREEN):
 	npc_name = name
 	position = pos
@@ -69,6 +73,11 @@ func _on_area_entered(area):
 			dialogue_manager.start_dialogue(self)
 
 func get_current_dialogue() -> String:
+	# Check if conversation is exhausted first
+	if conversation_exhausted:
+		print("NPC: Conversation exhausted, returning rebuff message")
+		return exhausted_response
+
 	# Only reset if this is a brand new conversation (no previous progress)
 	if conversation_level == 1 and level_2_choice == "" and level_3_used_options.is_empty():
 		# This is a fresh start
@@ -95,6 +104,10 @@ func get_current_dialogue() -> String:
 			return "Hello there..."
 
 func get_current_options() -> Array[String]:
+	# If conversation is exhausted, return no options (just wait to dismiss)
+	if conversation_exhausted:
+		return []
+
 	match conversation_level:
 		1:
 			# Level 1: All base options available for first response
@@ -170,6 +183,8 @@ func handle_level_3_choice(option_key: String) -> Dictionary:
 
 	# Check if all options exhausted
 	if level_3_available_options.is_empty():
+		# Mark conversation as exhausted if all branches explored
+		check_if_fully_exhausted()
 		# Conversation complete - trigger graceful end
 		return {
 			"text": response_text,
@@ -432,3 +447,18 @@ func apply_trust_change(trust_change: int):
 func update_conversation_depth():
 	emotional_state.conversation_depth += 1
 	print("NPC: Conversation depth: %d" % emotional_state.conversation_depth)
+
+func check_if_fully_exhausted():
+	# Check if all level 2 branches have been explored
+	var all_branches = conversation_tree.get("level_1", {}).get("branches", {})
+	var explored_branches = []
+
+	# We've explored the current level_2_choice
+	explored_branches.append(level_2_choice)
+
+	# Check if we've explored all branches by looking at dialogue state
+	# For now, we'll mark as exhausted when one full branch is complete
+	# You can expand this logic to track multiple branches
+	if level_3_used_options.size() == 4:  # All 4 options used in level 3
+		conversation_exhausted = true
+		print("NPC %s: All dialogue exhausted" % npc_name)

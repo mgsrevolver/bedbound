@@ -7,6 +7,9 @@ func _ready():
 func setup_conversation_tree():
 	npc_name = "Paul"
 
+	# Set Paul's exhausted response - references his ex-wife and ongoing concerns
+	exhausted_response = "Have you seen my ex-wife? She hasn't changed those curtains yet..."
+
 	conversation_tree = {
 		"level_1": {
 			"text": "My divorce was finalized this morning. Twenty-three years of marriage, and it all came down to a ten-minute hearing where the judge asked if we'd tried counseling.",
