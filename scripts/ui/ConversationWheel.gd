@@ -39,7 +39,7 @@ var base_options = [
 	{"option": DialogueManager.DialogueOption.WAIT, "label": "Wait", "angle": 0},
 	{"option": DialogueManager.DialogueOption.ACKNOWLEDGE, "label": "Acknowledge", "angle": 90},
 	{"option": DialogueManager.DialogueOption.CLARIFY, "label": "Clarify", "angle": 180},
-	{"option": DialogueManager.DialogueOption.REFLECT, "label": "Reflect", "angle": 270}
+	{"option": DialogueManager.DialogueOption.REFLECT, "label": "Repeat Back", "angle": 270}
 ]
 
 var option_segments = []
@@ -610,7 +610,7 @@ func get_option_data_from_string(option_str: String) -> Dictionary:
 		"clarify":
 			return {"option": DialogueManager.DialogueOption.CLARIFY, "label": "Clarify"}
 		"reflect":
-			return {"option": DialogueManager.DialogueOption.REFLECT, "label": "Reflect"}
+			return {"option": DialogueManager.DialogueOption.REFLECT, "label": "Repeat Back"}
 		"probe":
 			return {"option": DialogueManager.DialogueOption.PROBE, "label": "Probe"}
 		_:
