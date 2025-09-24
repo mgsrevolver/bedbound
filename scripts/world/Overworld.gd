@@ -43,5 +43,9 @@ func setup_npcs():
 	paul.setup("Paul", Vector2(600, 384), Color.BLUE)
 	npcs.append(paul)
 
+	var rita = $NPCs/Rita
+	rita.setup("Rita", Vector2(400, 384), Color.PURPLE)
+	npcs.append(rita)
+
 func _on_interaction_triggered(npc):
 	print("Player wants to interact with NPC: ", npc.npc_name)
