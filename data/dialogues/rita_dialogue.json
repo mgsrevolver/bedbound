@@ -1,0 +1,103 @@
+{
+	"id": "rita_dialogue",
+	"npc_name": "Rita",
+	"conversation_tree": {
+		"level_1": {
+			"text": "I started a podcast about other people's dreams. Not goals - actual dreams. The sleeping kind.",
+			"branches": {
+				"wait": {
+					"text": "Episode forty-three was about recurring dreams of missed flights. Everyone has them, but nobody talks about them.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "My most downloaded episode? A woman who dreams she's made of glass. Transparent. Fragile. Seen through.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "People tell me things they won't tell therapists. There's safety in knowing strangers are listening.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The missed flights? It's never about the destination. It's about watching the plane leave without you.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "'Nobody talks about them.' Exactly. We share our waking lives but hide where our minds go in the dark.",
+							"trust_change": 2
+						}
+					}
+				},
+				"acknowledge": {
+					"text": "Seven thousand downloads last month. Seven thousand strangers listening to other strangers' subconscious.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "I never show my face. Just my voice and their dreams. I'm becoming someone who exists only in earbuds.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "It's weird, right? This invisible intimacy. Closer than friends but never meeting.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The downloads? They spike at 3 AM. Prime insomnia hours. The lonely time when dreams feel more real than life.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "'Seven thousand strangers.' You understand the weight of that. All those minds tuning in to other minds.",
+							"trust_change": 2
+						}
+					}
+				},
+				"clarify": {
+					"text": "Why dreams? Because nobody lies in their dreams. Your subconscious doesn't know how to be polite.",
+					"trust_change": 0,
+					"level_3": {
+						"wait": {
+							"text": "Last night I dreamed I was interviewing myself. I couldn't think of a single question.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "The honest truth? I'm mining other people's unconscious because I'm afraid of my own.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "Nobody lies? Well, they can't. Dreams are involuntary confessions. Truth without filters.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "'Your subconscious doesn't know how to be polite.' You really heard that. Most people miss the important part.",
+							"trust_change": 2
+						}
+					}
+				},
+				"reflect": {
+					"text": "'The sleeping kind.' You knew exactly which dreams I meant. Most people assume I mean aspirations.",
+					"trust_change": 2,
+					"level_3": {
+						"wait": {
+							"text": "I've recorded 127 episodes. I remember every dream but none of the dreamers' names.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "You're right. There's something profound about collecting unconscious stories. Like being a librarian of the sleeping mind.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "The difference? Aspirational dreams we control. Sleeping dreams control us. Guess which ones tell the truth?",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "You listen the way I listen. Hearing the spaces between words where the real story lives.",
+							"trust_change": 3
+						}
+					}
+				}
+			}
+		},
+		"exhausted_response": "I should stop before I become my own episode. Some dreams shouldn't be podcast content."
+	},
+	"author": "System",
+	"version": "1.0",
+	"tags": ["creativity", "isolation", "dreams", "modern_life"]
+}

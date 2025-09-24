@@ -45,6 +45,8 @@ var base_options = [
 var option_segments = []
 var trust_level = 0
 var current_available_options: Array[String] = []
+var used_options_per_level: Dictionary = {}
+var current_used_options: Array[String] = []
 var conversation_level = 1
 var level_2_choice = ""
 
@@ -175,7 +177,18 @@ func create_option_segment(option_data: Dictionary) -> Control:
 	var label = Label.new()
 	label.text = option_data.label
 	label.add_theme_font_size_override("font_size", 18)
-	label.add_theme_color_override("font_color", Color.WHITE)
+
+	# Check if option is disabled (already used)
+	var option_key = get_option_key_from_enum(option_data.option)
+	var is_disabled = current_used_options.has(option_key)
+	option_data["disabled"] = is_disabled
+
+	if is_disabled:
+		label.add_theme_color_override("font_color", Color(0.4, 0.4, 0.4))  # Gray out
+		label.text = "[" + label.text + "]"  # Visual indicator
+	else:
+		label.add_theme_color_override("font_color", Color.WHITE)
+
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.size = Vector2(100, 40)
@@ -421,14 +434,30 @@ func update_selection_indicator():
 		var option_data = segment.get_meta("option_data")
 
 		if option_data.option == selected_option:
-			segment.modulate = Color(1.2, 1.2, 0.8)  # Brighter/yellow tint
-			segment.scale = Vector2(1.1, 1.1)
+			# Don't highlight as much if disabled
+			if option_data.get("disabled", false):
+				segment.modulate = Color(0.6, 0.6, 0.6)  # Still gray
+				segment.scale = Vector2(1.05, 1.05)  # Slightly larger
+			else:
+				segment.modulate = Color(1.2, 1.2, 0.8)  # Brighter/yellow tint
+				segment.scale = Vector2(1.1, 1.1)
 		else:
-			segment.modulate = Color.WHITE
+			# Keep disabled options gray
+			if option_data.get("disabled", false):
+				segment.modulate = Color(0.4, 0.4, 0.4)
+			else:
+				segment.modulate = Color.WHITE
 			segment.scale = Vector2(1.0, 1.0)
 
 func confirm_selection():
 	print("ConversationWheel: Confirming selection: ", selected_option)
+
+	# Check if option is disabled
+	var option_key = get_option_key_from_enum(selected_option)
+	if current_used_options.has(option_key):
+		print("ConversationWheel: Option already used: ", option_key)
+		return
+
 	# Only emit if we're not in an ended state
 	if mouse_filter != Control.MOUSE_FILTER_IGNORE:
 		option_selected.emit(selected_option)
@@ -616,10 +645,44 @@ func get_option_data_from_string(option_str: String) -> Dictionary:
 		_:
 			return {}
 
+func get_option_key_from_enum(option: DialogueManager.DialogueOption) -> String:
+	match option:
+		DialogueManager.DialogueOption.WAIT:
+			return "wait"
+		DialogueManager.DialogueOption.ACKNOWLEDGE:
+			return "acknowledge"
+		DialogueManager.DialogueOption.CLARIFY:
+			return "clarify"
+		DialogueManager.DialogueOption.REFLECT:
+			return "reflect"
+		DialogueManager.DialogueOption.PROBE:
+			return "probe"
+		_:
+			return ""
+
 func update_conversation_state(level: int, choice: String = "", used_options: Array = []):
 	conversation_level = level
 	level_2_choice = choice
+
+	# Update current used options
+	current_used_options.clear()
+	for opt in used_options:
+		if opt is String:
+			current_used_options.append(opt)
+
+	# Store used options per level if needed
+	if not used_options_per_level.has(level):
+		used_options_per_level[level] = []
+	used_options_per_level[level] = current_used_options.duplicate()
+
 	print("ConversationWheel: State updated - Level: ", level, " Choice: ", choice, " Used options: ", used_options)
+
+	# Recreate segments to reflect disabled state
+	if not current_available_options.is_empty():
+		create_option_segments_filtered()
+	else:
+		create_option_segments()
+
 	update_progress_indicator()
 
 func update_progress_indicator():

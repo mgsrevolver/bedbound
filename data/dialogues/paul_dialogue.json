@@ -1,0 +1,103 @@
+{
+	"id": "paul_dialogue",
+	"npc_name": "Paul",
+	"conversation_tree": {
+		"level_1": {
+			"text": "My divorce was finalized this morning. Twenty-three years, and it ends with an email from a lawyer.",
+			"branches": {
+				"wait": {
+					"text": "I walked past our old house yesterday. The new owners painted it yellow. We always said we'd paint it yellow.",
+					"trust_change": 2,
+					"level_3": {
+						"wait": {
+							"text": "She kept the piano. I don't even play, but knowing it's gone... The silence where it used to be is louder than it ever was.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "You understand loss, don't you? Not the dramatic kind. The slow kind that happens while you're still trying.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "Why yellow? She loved sunflowers. Said they turned toward light like hope. I guess someone else's hope lives there now.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "'Our old house.' You caught that. I still say 'our.' Twenty-three years of habit doesn't end with paperwork.",
+							"trust_change": 3
+						}
+					}
+				},
+				"acknowledge": {
+					"text": "The mediation was... civil. We divided everything equally. Even split the photo albums chronologically.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "I kept 1999 to 2011. Our daughter's childhood. She kept 2012 onward. When things were already ending.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "Fair. That's what the lawyer kept saying. 'Fair.' As if you could weigh memories on a scale.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The albums? We thought splitting them meant we both got to keep the good years. Now I realize we were already dividing our lives back then.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "'Civil.' Yes, that's exactly what it was. Polite strangers handling sharp objects.",
+							"trust_change": 2
+						}
+					}
+				},
+				"clarify": {
+					"text": "Why am I telling you this? I don't know. Maybe because you're the first person who hasn't immediately offered advice.",
+					"trust_change": 0,
+					"level_3": {
+						"wait": {
+							"text": "Everyone has opinions about divorce. Move on. Take time. Date. Don't date. As if there's a roadmap for this.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "You get it. Sometimes we just need to say things out loud to make them real.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The advice? 'You'll find someone new.' As if that erases someone old. As if love is replacing a broken appliance.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "'The first person.' I suppose that makes you special. Or maybe I'm just ready to be heard.",
+							"trust_change": 2
+						}
+					}
+				},
+				"reflect": {
+					"text": "An email from a lawyer. You're right to repeat that. The absurdity of it. Two decades dissolved in a PDF attachment.",
+					"trust_change": 3,
+					"level_3": {
+						"wait": {
+							"text": "I saved the email. I don't know why. Proof it happened? Proof it's over? Proof we existed?",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "It's the small cruelties that cut deepest, isn't it? Not the big dramatic endings, but the quiet administrative ones.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "The lawyer? Nice enough. Efficient. Charged $400 an hour to help us become strangers.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "You have a gift - hearing what people really mean. The email wasn't the ending. It was the punctuation mark.",
+							"trust_change": 3
+						}
+					}
+				}
+			}
+		},
+		"exhausted_response": "I've said too much already. Some stories need time to breathe between tellings."
+	},
+	"author": "System",
+	"version": "1.0",
+	"tags": ["divorce", "loss", "melancholy", "trust_building"]
+}
