@@ -1,0 +1,112 @@
+{
+  "characters": {
+    "paul": {
+      "name": "Paul",
+      "archetype": "The Self-Absorbed Complainer",
+      "core_trait": "Projects his failings onto others through legitimate-seeming complaints",
+      "reference": "Divorced man who notices curtains before processing emotions",
+      "psychological_profile": {
+        "defense_mechanism": "Projection",
+        "blind_spot": "His role in relationship failures",
+        "revelation_arc": "Gradual recognition of self-deception through player's silence"
+      },
+      "dialogue_style": {
+        "vocabulary": "Domestic minutiae, passive-aggressive observations",
+        "rhythm": "Circular complaints that reveal more than intended",
+        "signature_phrases": ["The curtains", "Twenty-three years", "Post-it notes", "Yogurt"]
+      },
+      "opening_line": "My divorce was finalized this morning. Twenty-three years of marriage, and it all came down to a ten-minute hearing where the judge asked if we'd tried counseling.",
+      "exhausted_response": "Have you seen my ex-wife? She hasn't changed those curtains yet..."
+    },
+    "rita": {
+      "name": "Rita",
+      "archetype": "The Failed Academic",
+      "core_trait": "Brilliant but unable to articulate or integrate her unified theory",
+      "reference": "Live-in brother from A Serious Man (Coen Brothers)",
+      "psychological_profile": {
+        "defense_mechanism": "Intellectualization",
+        "blind_spot": "Human connection beyond probability",
+        "revelation_arc": "Multiverse theories collapse when forced to engage with single reality"
+      },
+      "dialogue_style": {
+        "vocabulary": "Probability, quantum mechanics, podcast metrics, academic jargon",
+        "rhythm": "Starts grandiose, fractures into insecurity",
+        "signature_phrases": ["Auditory probability map", "47 downloads", "My people will be in touch", "The numbers suggest"]
+      },
+      "opening_line": "My podcast hit 47 downloads yesterday. That's 46 more than my mother.",
+      "exhausted_response": "Did you listen to my latest episode? The download numbers are through the roof. My people will be in touch about your guest appearance..."
+    },
+    "tatiana": {
+      "name": "Tatiana",
+      "archetype": "The Irony-Poisoned Troll",
+      "core_trait": "Deliberately offensive to avoid sincerity",
+      "reference": "John Waters meets 4chan",
+      "psychological_profile": {
+        "defense_mechanism": "Hostile humor",
+        "blind_spot": "Desperate need for authentic connection",
+        "revelation_arc": "Sincerity breaks through when exhausted by own performance"
+      },
+      "dialogue_style": {
+        "vocabulary": "Internet slang, deliberate provocations, shock humor",
+        "rhythm": "Rapid-fire attempts to offend, pauses when accidentally sincere",
+        "signature_phrases": ["Unironically", "Based", "Touch grass", "Cope harder"]
+      },
+      "opening_line": "Oh great, the local tragedy wants to hear my life story. Should I start with my OnlyFans or skip straight to the childhood trauma?",
+      "exhausted_response": "Still here? Most people leave after the third slur. You're either a masochist or genuinely retarded. ...Sorry. That was... sorry."
+    },
+    "larry": {
+      "name": "Larry",
+      "archetype": "The Enlightened Seeker",
+      "core_trait": "Genuine spiritual pursuit funded by mysterious wealth",
+      "reference": "Rick Strassman meets Nick Cammarata",
+      "psychological_profile": {
+        "defense_mechanism": "Transcendence",
+        "blind_spot": "Material privilege enabling spiritual pursuit",
+        "revelation_arc": "Confronting the source of wealth that funds enlightenment"
+      },
+      "dialogue_style": {
+        "vocabulary": "Jhanas, DMT entities, integration, presence, non-dual awareness",
+        "rhythm": "Gentle, measured, occasionally slips into past tense violence",
+        "signature_phrases": ["Before the work", "The entities suggested", "Integration is key", "Back when I was in the trade"]
+      },
+      "opening_line": "I've been in the third jhana for six hours. The entities are particularly chatty today. They remember you.",
+      "exhausted_response": "The meditation app sold for nine figures. Did I mention that? No? Interesting what we choose to forget..."
+    },
+    "mark": {
+      "name": "Mark",
+      "archetype": "The Compulsive Liar",
+      "core_trait": "Gets physical thrill from lying, replaced heroin with running",
+      "reference": "Burnout athlete with mythomaniac tendencies",
+      "psychological_profile": {
+        "defense_mechanism": "Fabrication",
+        "blind_spot": "Truth as weakness",
+        "revelation_arc": "Lies become so elaborate they circle back to honesty"
+      },
+      "dialogue_style": {
+        "vocabulary": "Athletic achievements, drug stories, contradictory timelines",
+        "rhythm": "Confident assertions that don't add up",
+        "signature_phrases": ["Sub-three marathon", "When I was using", "Qualified for Boston", "Clean for six years... or was it eight?"]
+      },
+      "opening_line": "Just ran a sub-three marathon this morning. My Garmin died so I can't prove it, but the heroin withdrawal sweats definitely helped with the weight cut.",
+      "exhausted_response": "Everything I've told you is true. Except the parts that aren't. But those are the truest parts of all."
+    }
+  },
+  "dialogue_options": {
+    "wait": {
+      "display": "Say nothing",
+      "description": "Pure receptivity, lets NPCs fill the void"
+    },
+    "acknowledge": {
+      "display": "Nod",
+      "description": "Gentle encouragement to continue"
+    },
+    "clarify": {
+      "display": "Ask why",
+      "description": "Probe deeper into motivations"
+    },
+    "reflect": {
+      "display": "Repeat back",
+      "description": "Therapeutic mirroring of their words"
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "dialogue_structure": {
+    "conversation_depth": 3,
+    "options_per_branch": 4,
+    "progression_model": "trust_based",
+    "branch_types": {
+      "level_1": "Initial approach - testing boundaries",
+      "level_2": "Recognition of listener - revealing mechanism",
+      "level_3": "Core wound exposed - truth or deflection"
+    }
+  },
+  "character_dialogue_patterns": {
+    "paul": {
+      "wait_responses": [
+        "L1: I walked past our old house on the way here. She's already changed the curtains.",
+        "L2: The silence between us grew like a living thing. Eventually it was the only thing in the room.",
+        "L3: The only moments of grace came when I was patient and waited for her to fill the air."
+      ],
+      "acknowledge_responses": [
+        "L1: The judge refused to make eye contact. Ten minutes, signed papers, over.",
+        "L2: You've survived a lot. You could survive a divorce. Tougher stuff than me.",
+        "L3: I suppose the writing has been on the wall for some time now."
+      ],
+      "clarify_responses": [
+        "L1: Post-it notes about yogurt. Another man has been in my house.",
+        "L2: He asked what I learned. I didn't learn anything. Too late now.",
+        "L3: My father taught me: 'A compliment is when you tell them what they need to hear.'"
+      ],
+      "reflect_responses": [
+        "L1: I have been giving her compliments. Every day.",
+        "L2: Yes, like: 'I prefer the shoestring fries.'",
+        "L3: It must all sound so trivial, given what you've been through."
+      ]
+    },
+    "rita": {
+      "wait_responses": [
+        "L1: It's an auditory probability map. I know what you're going to say.",
+        "L2: Choosing to say nothing is a choice. Stasis is a choice. I knew you'd make it.",
+        "L3: In the quantum multiverse, this silence contains infinite conversations."
+      ],
+      "acknowledge_responses": [
+        "L1: You'd be interested. You're like a cipher. Perfect podcast guest material.",
+        "L2: Fabulous. My people will be in touch.",
+        "L3: The probability of this interaction was 0.0000001%. Yet here we are."
+      ],
+      "clarify_responses": [
+        "L1: A podcast. Like friends, but no risk, no brushing teeth, just a pulse required.",
+        "L2: It will make more sense in the studio. My people will contact your... parents.",
+        "L3: The math is complex but essentially: every choice splits reality."
+      ],
+      "reflect_responses": [
+        "L1: YOU have a podcast? Tell me more about YOUR podcast.",
+        "L2: You'd like ME as a guest on YOUR show? My profile is quite high...",
+        "L3: When you repeat my words, you create a probability loop. Fascinating."
+      ]
+    },
+    "tatiana": {
+      "wait_responses": [
+        "L1: What, no reaction? That usually gets at least a gasp from the normies.",
+        "L2: Silent treatment? How original. My therapist tried that too before she quit.",
+        "L3: ...This is actually worse than when people argue with me."
+      ],
+      "acknowledge_responses": [
+        "L1: Oh you're 'listening'? How noble. Should I slow down so you can take notes?",
+        "L2: Wow, validation! Is this where I'm supposed to cry and hug you?",
+        "L3: Stop looking at me like you understand. You don't. Nobody does. That's the point."
+      ],
+      "clarify_responses": [
+        "L1: Why? Because it's funny watching people squirm. Next question.",
+        "L2: You want my origin story? Daddy issues or bullying, pick your favorite cliche.",
+        "L3: Why do I do this? Because sincerity is cringe and we're all going to die anyway."
+      ],
+      "reflect_responses": [
+        "L1: Did you just... repeat what I said? Are you literally autistic?",
+        "L2: Stop that. Stop repeating me. It's not clever, it's creepy.",
+        "L3: When you say it back it sounds... different. Worse. Stop."
+      ]
+    },
+    "larry": {
+      "wait_responses": [
+        "L1: Your silence creates space. The entities appreciate space.",
+        "L2: In the third jhana, time becomes optional. We could sit here forever.",
+        "L3: Before the medicine work, I too was silent. Different kind of silence though."
+      ],
+      "acknowledge_responses": [
+        "L1: You have good energy. Have you considered a heroic dose?",
+        "L2: The work chooses you, not the other way around. You were chosen too.",
+        "L3: My first breakthrough was in a penthouse I bought with... previous life earnings."
+      ],
+      "clarify_responses": [
+        "L1: Why? The entities don't deal in 'why.' Only in 'what is.'",
+        "L2: My funding? I was successful in a past life. Tech, mostly. Some pharma.",
+        "L3: The money came from suffering. Now I transmute it into healing."
+      ],
+      "reflect_responses": [
+        "L1: Yes, the entities. They're always here. Behind everything.",
+        "L2: When you mirror my words, you create a resonance. Sacred geometry.",
+        "L3: 'Back when I was in the trade.' There. I said it. Happy?"
+      ]
+    },
+    "mark": {
+      "wait_responses": [
+        "L1: You checking my math? It's a 2:55 actually. Or was it 3:05?",
+        "L2: The best lies have silence in them. Creates authenticity.",
+        "L3: I'm telling the truth right now. Or am I? Even I don't know anymore."
+      ],
+      "acknowledge_responses": [
+        "L1: You believe me! Most people call bullshit by now. You're special.",
+        "L2: I can tell you want to believe. That's what makes you perfect.",
+        "L3: Every story I've told you happened. Just not to me. Or did it?"
+      ],
+      "clarify_responses": [
+        "L1: Why lie? Better question: why not? Reality is negotiable.",
+        "L2: Started with pain pills. Or was it speed? Details change, feeling stays.",
+        "L3: The running is real. Everything else? Depends on the day."
+      ],
+      "reflect_responses": [
+        "L1: 'Sub-three marathon' - sounds even better when you say it.",
+        "L2: When you repeat my lies, do they become true? Philosophy, man.",
+        "L3: Six years clean. Eight years. Two years. Time is just another story."
+      ]
+    }
+  },
+  "trust_thresholds": {
+    "level_1_min": 0,
+    "level_2_min": 3,
+    "level_3_min": 7,
+    "breakthrough_min": 12
+  },
+  "response_weights": {
+    "wait": {
+      "trust_gain": 1,
+      "reveals_patience": true
+    },
+    "acknowledge": {
+      "trust_gain": 1,
+      "reveals_validation": true
+    },
+    "clarify": {
+      "trust_gain": 0,
+      "reveals_curiosity": true,
+      "can_backfire": true
+    },
+    "reflect": {
+      "trust_gain": 2,
+      "reveals_understanding": true,
+      "most_intimate": true
+    }
+  }
+}
