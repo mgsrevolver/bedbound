@@ -12,10 +12,10 @@ func setup_conversation_tree():
 
 	conversation_tree = {
 		"level_1": {
-			"text": "I would be eternally grateful if you would listen to my podcast.",
+			"text": "My show is the fastest-growing podcast in the app store. 500% growth. We went from 1 listener to 5 within an hour. Do you want to join this rocket ship?",
 			"branches": {
 				"wait": {
-					"text": "It's an auditory probability map of this town, and everyone in it. Now, before you respond – I know what you're going to say.",
+					"text": "I can see you calculating the mathematics of my success. Five listeners represents infinite potential. Each listener is a probability node in the network.",
 					"trust_change": 1,
 					"level_3": {
 						"wait": {
@@ -37,7 +37,7 @@ func setup_conversation_tree():
 					}
 				},
 				"acknowledge": {
-					"text": "I knew you'd be interested. In fact, I'd like to have you on as a guest. We can discuss what happened to you! There's so much gossip. You're like a cipher.",
+					"text": "I knew you'd recognize exponential growth when you see it. You have good instincts. Perfect guest material for when we hit the big leagues.",
 					"trust_change": 1,
 					"level_3": {
 						"acknowledge": {
@@ -59,7 +59,7 @@ func setup_conversation_tree():
 					}
 				},
 				"clarify": {
-					"text": "That's right. A podcast. It's like hanging out with your best friends, but you don't have to get dressed, or brush your teeth, or contribute, or risk anything. Really you just have to have a pulse.",
+					"text": "Why wouldn't you want to join? Look, I understand skepticism, but the numbers don't lie. We're talking about 500% growth in real-time.",
 					"trust_change": 0,
 					"level_3": {
 						"wait": {
@@ -81,7 +81,7 @@ func setup_conversation_tree():
 					}
 				},
 				"reflect": {
-					"text": "YOU have a podcast? I'm sure that's... interesting. Could you tell me more about it?",
+					"text": "'Rocket ship?' Yes, exactly. That's precisely the terminology venture capitalists use. You understand the landscape.",
 					"trust_change": 2,
 					"level_3": {
 						"reflect": {
