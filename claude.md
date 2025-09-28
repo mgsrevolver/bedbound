@@ -32,11 +32,26 @@ Dialogue Writing Philosophy
 - Humor emerges from character specificity, not jokes
 - Constraint breeds authenticity - limited options force honesty
 
-Technical Notes
-- Godot engine, mobile-first design
-- Character data in JSON, separate from game logic
-- Trust-based progression unlocks deeper conversations
-- World expands as emotional barriers dissolve
+Current Development State
+- Basic overworld with character movement working
+- 4-option dialogue system implemented (hardcoded in Rita/Paul)
+- Trust tracking and conversation progression functional
+- Character data exported to JSON (characters.json, dialogue_templates.json)
+
+Next Immediate Steps
+1. Convert one character (Rita) from hardcoded GDScript to JSON-driven dialogue
+2. Test that the psychological framework actually creates compelling conversations
+3. Build simple scene with 2-3 characters to test interconnections
+4. Validate that non-gamers can navigate the interface
+
+Key Technical Challenges
+- JSON dialogue loader that handles branching conversations elegantly
+- Touch UI that feels natural for mobile (conversation wheel vs traditional menu)
+- Save system that preserves conversation state and NPC relationships
+- Performance optimization for mobile (especially dialogue text rendering)
+
+Development Philosophy
+Story-first: Write and test dialogue content before building complex systems. Prototype conversations in Twine, export to JSON, test in Godot. The dialogue quality determines if this concept works.
 
 Success Metric
 The game works if players feel they're witnessing authentic psychological moments, not just consuming content.
