@@ -128,10 +128,19 @@ Development Best Practices for This Project
    Godot's signal system for event handling
    UI system for touch-friendly interfaces
    Content Development Support
-   Dialogue writing in Earthbound's humorous style
-   Character personality consistency across conversations
-   Story connection and revelation pacing
-   Environmental storytelling integration
+   Psychological Character Development
+     - Each NPC has a core defense mechanism (projection, intellectualization, humor, transcendence, fabrication)
+     - Dialogue reveals both what characters say and what they're hiding
+     - Authentic human contradictions drive conversation depth
+   Dialogue Writing Philosophy
+     - Write how people really talk when they feel safely heard
+     - Earthbound-style humor emerges from character specificity, not jokes
+     - Every line serves psychological revelation
+     - Constraint breeds authenticity - limited options force honesty
+   Character Data Systems
+     - JSON-based character profiles with psychological frameworks
+     - Dialogue templates showing response patterns across trust levels
+     - Separation of character psychology from game mechanics
    Success Metrics
    Development Milestones
    First NPC conversation fully playable
