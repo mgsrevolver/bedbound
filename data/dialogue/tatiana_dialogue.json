@@ -1,0 +1,103 @@
+{
+	"id": "tatiana_dialogue",
+	"npc_name": "Tatiana",
+	"conversation_tree": {
+		"level_1": {
+			"text": "Oh great, the local tragedy wants to hear my life story. Should I start with my OnlyFans or skip straight to the childhood trauma?",
+			"branches": {
+				"wait": {
+					"text": "What, no reaction? That usually gets at least a gasp from the normies. You're either dead inside or actually interesting. Jury's still out.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "...This is actually worse than when people argue with me. You're just... there. Like you're waiting for me to say something real. Fuck.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "Don't nod at me like I'm making sense. I'm not. That's the whole point. Everything I say is designed to make you leave.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "Why do I do this? Because it's funny watching people squirm. Because sincerity is cringe and we're all going to die anyway. Next question.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "When you say it back it sounds... different. Worse. Like hearing yourself on a recording. Stop.",
+							"trust_change": 2
+						}
+					}
+				},
+				"acknowledge": {
+					"text": "Oh you're 'listening'? How noble. Should I slow down so you can take notes for your little trauma journal?",
+					"trust_change": 1,
+					"level_3": {
+						"acknowledge": {
+							"text": "Wow, validation! Is this where I'm supposed to cry and hug you? Because that's not happening. I don't do the crying thing anymore.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "You want my origin story? Fine. Daddy issues or bullying, pick your favorite cliche. Both are true. Neither matter.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "Stop looking at me like you understand. You don't. Nobody does. That's literally the entire point of being alive.",
+							"trust_change": 1
+						},
+						"wait": {
+							"text": "Silent judgment is still judgment. At least the people who yell at me are honest about hating me.",
+							"trust_change": 2
+						}
+					}
+				},
+				"clarify": {
+					"text": "You want to know if I'm serious? About the OnlyFans or the trauma? The answer is 'sort of' to both. Schrödinger's shitpost.",
+					"trust_change": 0,
+					"level_3": {
+						"wait": {
+							"text": "Taking time to process my bullshit? Smart. Most people just react. You're calculating. I respect that, actually.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "You're treating my jokes like they mean something. That's... nobody does that. They either laugh or get offended.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "Did you just 'Schrödinger's shitpost' me back? That's... okay that's actually funny. You're funny. Fuck.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "A shitpost is when you say something offensive but you're being ironic but you're also being serious but also joking. It's a defense mechanism.",
+							"trust_change": 0
+						}
+					}
+				},
+				"reflect": {
+					"text": "Did you just... repeat what I said? Are you literally autistic? Wait, is that allowed? Can I still say that?",
+					"trust_change": 2,
+					"level_3": {
+						"reflect": {
+							"text": "Stop that. Stop repeating me. When you echo my words they sound like actual hurt instead of jokes. That's not fair.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "You're not reacting the way you're supposed to. You're supposed to get mad or uncomfortable or leave. Why aren't you leaving?",
+							"trust_change": 1
+						},
+						"wait": {
+							"text": "...Most people leave after the third slur. You're either a masochist or genuinely... I don't know what you are. ...Sorry. That was... sorry.",
+							"trust_change": 3
+						},
+						"clarify": {
+							"text": "You want to know why I talk like this? Because if I make you hate me first, it doesn't hurt when you eventually do. Basic math.",
+							"trust_change": 2
+						}
+					}
+				}
+			}
+		}
+	},
+	"exhausted_response": "Still here? Most people leave after the third slur. You're either a masochist or genuinely retarded. ...Sorry. That was... sorry.",
+	"author": "Claude",
+	"version": "1.0",
+	"tags": ["tatiana", "irony_poisoned", "hostile_humor", "deflection", "4chan"]
+}

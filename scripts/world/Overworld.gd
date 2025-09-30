@@ -39,13 +39,30 @@ func setup_world():
 			tilemap.set_cell(0, Vector2i(x, y), 0, Vector2i(0, 0))
 
 func setup_npcs():
+	# Paul - The Self-Absorbed Complainer (Left - isolated, withdrawn)
 	var paul = $NPCs/Paul
-	paul.setup("Paul", Vector2(600, 384), Color.BLUE)
+	paul.setup("Paul", Vector2(300, 384), Color(0.4, 0.5, 0.7))  # Muted blue - passive, deflated
 	npcs.append(paul)
 
+	# Rita - The Failed Academic (North - above others, looking down)
 	var rita = $NPCs/Rita
-	rita.setup("Rita", Vector2(400, 384), Color.PURPLE)
+	rita.setup("Rita", Vector2(512, 200), Color(0.6, 0.3, 0.7))  # Purple - intellectual, scattered
 	npcs.append(rita)
+
+	# Tatiana - The Irony-Poisoned Troll (Right - aggressive, confrontational)
+	var tatiana = $NPCs/Tatiana
+	tatiana.setup("Tatiana", Vector2(724, 384), Color(0.9, 0.2, 0.3))  # Red - hostile, intense
+	npcs.append(tatiana)
+
+	# Larry - The Enlightened Seeker (South - grounded, "centered")
+	var larry = $NPCs/Larry
+	larry.setup("Larry", Vector2(512, 568), Color(0.3, 0.8, 0.5))  # Green - natural, spiritual
+	npcs.append(larry)
+
+	# Mark - The Compulsive Liar (Northeast - restless, in motion)
+	var mark = $NPCs/Mark
+	mark.setup("Mark", Vector2(650, 250), Color(0.9, 0.7, 0.2))  # Yellow/Gold - energetic, unstable
+	npcs.append(mark)
 
 func _on_interaction_triggered(npc):
 	print("Player wants to interact with NPC: ", npc.npc_name)

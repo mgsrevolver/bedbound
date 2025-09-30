@@ -1,0 +1,103 @@
+{
+	"id": "paul_dialogue",
+	"npc_name": "Paul",
+	"conversation_tree": {
+		"level_1": {
+			"text": "My divorce was finalized this morning. Twenty-three years of marriage, and it all came down to a ten-minute hearing where the judge asked if we'd tried counseling.",
+			"branches": {
+				"wait": {
+					"text": "I walked past our old house on the way here. She's already changed the curtains. Azure-blue with planets on them. Makes no sense - there are no visible planets in daytime.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "The only moments of grace came when I was patient and waited for her to fill the air. Every time I opened my mouth, I was stunned by what came out. If only I could have been stunned into silence.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "It's remarkable, the lengths to which people will go to assert their independence. The curtains are her way of saying I don't exist anymore.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The curtains? They make my blood boil. Not because they're ugly - they're actually tasteful. It's that she chose them without considering my input. After twenty-three years.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "It must all sound so trivial, given what you've been through. Complaining about curtains while you... I didn't mean to whine. I'm sorry.",
+							"trust_change": 2
+						}
+					}
+				},
+				"acknowledge": {
+					"text": "I was in this fluorescent-lit room, and the judge refused to make eye contact. He spoke in a monotone voice for 10 minutes, signed the papers, and it was over.",
+					"trust_change": 1,
+					"level_3": {
+						"acknowledge": {
+							"text": "You've survived a lot. You could survive a divorce. You're made of tougher stuff than me. And you're what, twelve?",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "He asked me what I learned. I didn't learn anything. I already knew I wasn't supposed to... do the things I did. Maybe I learned not to do them again. But it's too late now.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "It's over. Yes. Over. I'm staying at the Jolly Roger motel. It's habitable. The shower has good pressure. Small victories.",
+							"trust_change": 1
+						},
+						"wait": {
+							"text": "When we walked out, my ex-wife turned to me and said, 'I wish things could have been different.' Not 'I wish you'd been different.' Things. Like it just happened to us.",
+							"trust_change": 2
+						}
+					}
+				},
+				"clarify": {
+					"text": "When I woke up last Tuesday, there were three Post-it notes on the kitchen counter in handwriting that definitely wasn't mine - or hers. Something about yogurt brand preferences.",
+					"trust_change": 0,
+					"level_3": {
+						"wait": {
+							"text": "Another man has been in my house. Eating yogurt. Leaving notes about his preferences. In my kitchen.",
+							"trust_change": 0
+						},
+						"acknowledge": {
+							"text": "You're a clever one. That's exactly right. It's definitive proof of infidelity. Post-it notes. The mundane has become evidence.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "I have a lactose sensitivity. I don't eat yogurt. Never have. She knows this. The yogurt was never for me.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "A Post-it note is like a... well, it's a small piece of paper with adhesive on the back. With words on the front. Words from the pen of another man.",
+							"trust_change": 0
+						}
+					}
+				},
+				"reflect": {
+					"text": "I have been giving her compliments. Every single day. I prided myself on it. Relentless positivity.",
+					"trust_change": 2,
+					"level_3": {
+						"reflect": {
+							"text": "Yes, such as: 'I prefer the shoestring fries. The wedges and the steak fries do nothing for me.' That's a compliment because it's honest feedback. She values my honesty.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "I am relentlessly positive. It makes her uncomfortable, apparently. The therapist said I was 'aggressively nice.' I suppose the writing has been on the wall for some time now.",
+							"trust_change": 1
+						},
+						"wait": {
+							"text": "The silence between us grew like a living thing. Eventually it was the only thing in the room. I just don't see the need for 'counseling' when everything is going just fine.",
+							"trust_change": 0
+						},
+						"clarify": {
+							"text": "My father taught me about compliments. A compliment is 'when you look someone in the eye and tell them something that they need to hear.' That's exactly what he told me. Word for word.",
+							"trust_change": 2
+						}
+					}
+				}
+			}
+		}
+	},
+	"exhausted_response": "Have you seen my ex-wife? She hasn't changed those curtains yet... Wait, no, she has. I told you that already, didn't I?",
+	"author": "Claude",
+	"version": "1.0",
+	"tags": ["paul", "self_absorbed", "projection", "divorce", "curtains"]
+}

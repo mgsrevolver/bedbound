@@ -1,0 +1,103 @@
+{
+	"id": "mark_dialogue",
+	"npc_name": "Mark",
+	"conversation_tree": {
+		"level_1": {
+			"text": "Just ran a sub-three marathon this morning. My Garmin died so I can't prove it, but the heroin withdrawal sweats definitely helped with the weight cut.",
+			"branches": {
+				"wait": {
+					"text": "You checking my math? It's a 2:55 actually. Or was it 3:05? The exact number doesn't matter. It's the feeling that matters. The truth of the run.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "I'm telling the truth right now. Or am I? Even I don't know anymore. The lies have their own lives now. They tell themselves.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "You believe the silence more than the words. Smart. The best lies live in the pauses. That's where authenticity hides.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The running is real. The times... depend on the day. What's true is the endorphins. Better than dope. Almost.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "The truth of the run. Yeah. Not the time, not the distance. The truth. You get it. Nobody gets it.",
+							"trust_change": 2
+						}
+					}
+				},
+				"acknowledge": {
+					"text": "You believe me! Most people call bullshit by now. You're special. Or maybe you just understand that truth is negotiable.",
+					"trust_change": 1,
+					"level_3": {
+						"acknowledge": {
+							"text": "I can tell you want to believe. That's what makes you perfect. Not cynical enough to dismiss, not naive enough to accept. You're in the sweet spot.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "Started with pain pills after a bike crash. Or was it speed before college? Details change, feeling stays. The needle was real though. That part's always true.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "When you repeat my lies, do they become true? Philosophy, man. Maybe everything becomes real if you say it enough times.",
+							"trust_change": 2
+						},
+						"wait": {
+							"text": "You're trying to figure out which parts are real. That's the wrong question. Ask instead: which parts feel real?",
+							"trust_change": 2
+						}
+					}
+				},
+				"clarify": {
+					"text": "Why lie? Better question: why not? Reality is negotiable. The withdrawal sweats though - those are real. Or they were. Six years ago. Or eight.",
+					"trust_change": 0,
+					"level_3": {
+						"wait": {
+							"text": "The best lies have silence in them. Creates authenticity. Watch: [long pause] See? Now you're wondering if I'm being honest. I am. Probably.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "Every story I've told you happened. Just not to me. Or did it? Sometimes I run other people's races in my head and my body believes it happened.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "Six years clean. Eight years. Two years. Time is just another story. What's real is that I stopped. Or I'm stopping. The trying is real.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "I get a physical rush from lying. Same dopamine hit as dope, almost. Runner's high plus fabrication high. I'm chasing feeling, not truth.",
+							"trust_change": 0
+						}
+					}
+				},
+				"reflect": {
+					"text": "'Sub-three marathon' - sounds even better when you say it. Like you're confirming it happened. Maybe it did. Who's to say?",
+					"trust_change": 2,
+					"level_3": {
+						"reflect": {
+							"text": "You're not judging the lie. You're just... holding it. Like it's a real thing. That's fucked up. I love it. Nobody does that.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "I qualified for Boston. Except I didn't. But I trained like I did. I have the plan, the splits, the visualization. Does intent count?",
+							"trust_change": 1
+						},
+						"wait": {
+							"text": "The truth is I ran 15 miles this morning. Not 26.2. But in my head I finished. My body believed it. The endorphins were real. That's enough.",
+							"trust_change": 3
+						},
+						"clarify": {
+							"text": "Clean for six years means I still want it every day. Means I lie about running instead of using. Means I've replaced one needle with another. Honesty is just another drug I can't quite manage.",
+							"trust_change": 2
+						}
+					}
+				}
+			}
+		}
+	},
+	"exhausted_response": "Everything I've told you is true. Except the parts that aren't. But those are the truest parts of all.",
+	"author": "Claude",
+	"version": "1.0",
+	"tags": ["mark", "compulsive_liar", "mythomaniac", "addiction", "runner"]
+}

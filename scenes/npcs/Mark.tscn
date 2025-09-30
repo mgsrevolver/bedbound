@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://g2l6nv8ot5z6e"]
+
+[ext_resource type="Script" path="res://scripts/npcs/Mark.gd" id="1_mark"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mark"]
+size = Vector2(32, 32)
+
+[node name="Mark" type="Area2D"]
+script = ExtResource("1_mark")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mark")

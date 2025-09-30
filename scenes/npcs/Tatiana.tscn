@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://e0j4lt6mr3x4c"]
+
+[ext_resource type="Script" path="res://scripts/npcs/Tatiana.gd" id="1_tatiana"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tatiana"]
+size = Vector2(32, 32)
+
+[node name="Tatiana" type="Area2D"]
+script = ExtResource("1_tatiana")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tatiana")

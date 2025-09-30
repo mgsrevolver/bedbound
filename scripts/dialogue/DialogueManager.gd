@@ -15,15 +15,31 @@ var current_npc: NPC
 var dialogue_ui: Control
 var debug_overlay: DebugOverlay
 var main_scene: Node
+var save_manager: SaveManager
 
 func _ready():
 	main_scene = get_parent()
 	add_to_group("dialogue_manager")
 	setup_debug_overlay()
 
+	# Get or wait for SaveManager
+	if has_node("/root/SaveManager"):
+		save_manager = get_node("/root/SaveManager")
+	else:
+		# Wait for it to be created
+		await get_tree().create_timer(0.1).timeout
+		if has_node("/root/SaveManager"):
+			save_manager = get_node("/root/SaveManager")
+
 func start_dialogue(npc: NPC):
 	current_npc = npc
 	main_scene.start_dialog()
+
+	# Initialize NPC in save manager if needed
+	if save_manager:
+		save_manager.init_npc_relationship(npc.npc_name)
+		# Restore NPC state from save
+		save_manager.restore_npc_state(npc.npc_name, npc)
 
 	dialogue_ui = preload("res://scenes/ui/ConversationWheel.tscn").instantiate()
 
@@ -52,8 +68,18 @@ func start_dialogue(npc: NPC):
 
 func _on_option_selected(option: DialogueOption):
 	print("DialogueManager: Option selected: ", option)
+	var option_key = get_option_key_string(option)
 	var response = current_npc.process_dialogue_option(option)
 	print("DialogueManager: Response: ", response)
+
+	# Log this exchange to SaveManager
+	if save_manager and current_npc:
+		save_manager.log_conversation(
+			current_npc.npc_name,
+			option_key,
+			response.text,
+			response.get("trust_change", 0)
+		)
 
 	if debug_overlay:
 		debug_overlay.update_debug_info(current_npc)
@@ -80,6 +106,10 @@ func show_conversation_end(response: Dictionary):
 	var total_trust = current_npc.trust_level
 	var dead_end_type = response.get("dead_end_type", null)
 	var farewell_message = response.get("farewell", "")
+
+	# Record breakthrough if this was a significant moment
+	if save_manager and dead_end_type == NPC.DeadEndType.BREAKTHROUGH_MOMENT:
+		save_manager.record_breakthrough(current_npc.npc_name, "authentic_moment")
 
 	# Convert enum to string if needed
 	var dead_end_type_string = ""
@@ -115,6 +145,10 @@ func _on_conversation_left():
 	end_dialogue()
 
 func end_dialogue():
+	# Save NPC state before ending
+	if save_manager and current_npc:
+		save_manager.update_npc_state(current_npc.npc_name, current_npc)
+
 	if dialogue_ui:
 		dialogue_ui.visible = false
 		dialogue_ui.queue_free()
@@ -123,6 +157,22 @@ func end_dialogue():
 		main_scene.end_dialog()
 	current_npc = null
 	dialogue_ended.emit()
+
+func get_option_key_string(option: DialogueOption) -> String:
+	"""Convert option enum to string for logging"""
+	match option:
+		DialogueOption.WAIT:
+			return "wait"
+		DialogueOption.ACKNOWLEDGE:
+			return "acknowledge"
+		DialogueOption.CLARIFY:
+			return "clarify"
+		DialogueOption.REFLECT:
+			return "reflect"
+		DialogueOption.PROBE:
+			return "probe"
+		_:
+			return "unknown"
 
 func setup_debug_overlay():
 	debug_overlay = preload("res://scenes/ui/DebugOverlay.tscn").instantiate()

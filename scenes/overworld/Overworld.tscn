@@ -1,11 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8h3ew6c0ikhd"]
+[gd_scene load_steps=10 format=3 uid="uid://c8h3ew6c0ikhd"]
 
 [ext_resource type="Script" path="res://scripts/world/Overworld.gd" id="1_bp2h7"]
 [ext_resource type="PackedScene" uid="uid://dpx7f3y1n8y8o" path="res://scenes/player/Player.tscn" id="2_2mfj7"]
-[ext_resource type="PackedScene" uid="uid://b4d5hqpx8n7y1" path="res://scenes/npcs/NPC.tscn" id="3_npc"]
-[ext_resource type="Script" path="res://scripts/npcs/Paul.gd" id="4_paul"]
-[ext_resource type="Script" path="res://scripts/npcs/Rita.gd" id="5_rita"]
-[ext_resource type="Script" path="res://scripts/camera/CameraController.gd" id="6_camera"]
+[ext_resource type="PackedScene" uid="uid://c8h2jr4kp1v2a" path="res://scenes/npcs/Paul.tscn" id="3_paul"]
+[ext_resource type="PackedScene" uid="uid://d9i3ks5lq2w3b" path="res://scenes/npcs/Rita.tscn" id="4_rita"]
+[ext_resource type="PackedScene" uid="uid://e0j4lt6mr3x4c" path="res://scenes/npcs/Tatiana.tscn" id="5_tatiana"]
+[ext_resource type="PackedScene" uid="uid://f1k5mu7ns4y5d" path="res://scenes/npcs/Larry.tscn" id="6_larry"]
+[ext_resource type="PackedScene" uid="uid://g2l6nv8ot5z6e" path="res://scenes/npcs/Mark.tscn" id="7_mark"]
+[ext_resource type="Script" path="res://scripts/camera/CameraController.gd" id="8_camera"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_bp2h7")
@@ -18,15 +20,22 @@ position = Vector2(512, 384)
 
 [node name="NPCs" type="Node2D" parent="."]
 
-[node name="Paul" parent="NPCs" instance=ExtResource("3_npc")]
-position = Vector2(600, 384)
-script = ExtResource("4_paul")
+[node name="Paul" parent="NPCs" instance=ExtResource("3_paul")]
+position = Vector2(300, 384)
 
-[node name="Rita" parent="NPCs" instance=ExtResource("3_npc")]
-position = Vector2(400, 384)
-script = ExtResource("5_rita")
+[node name="Rita" parent="NPCs" instance=ExtResource("4_rita")]
+position = Vector2(512, 200)
+
+[node name="Tatiana" parent="NPCs" instance=ExtResource("5_tatiana")]
+position = Vector2(724, 384)
+
+[node name="Larry" parent="NPCs" instance=ExtResource("6_larry")]
+position = Vector2(512, 568)
+
+[node name="Mark" parent="NPCs" instance=ExtResource("7_mark")]
+position = Vector2(650, 250)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 enabled = true
 zoom = Vector2(2, 2)
-script = ExtResource("6_camera")
+script = ExtResource("8_camera")

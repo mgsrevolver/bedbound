@@ -15,7 +15,9 @@
       "Bash(gh repo fork:*)",
       "Bash(git remote set-url:*)",
       "Bash(git push:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Bash(git clone:*)"
     ],
     "deny": [],
     "ask": []

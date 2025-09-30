@@ -1,0 +1,103 @@
+{
+	"id": "larry_dialogue",
+	"npc_name": "Larry",
+	"conversation_tree": {
+		"level_1": {
+			"text": "I've been in the third jhana for six hours. The entities are particularly chatty today. They remember you.",
+			"branches": {
+				"wait": {
+					"text": "Your silence creates space. The entities appreciate space. Most people fill every moment with noise, drowning out the signal.",
+					"trust_change": 1,
+					"level_3": {
+						"wait": {
+							"text": "Before the medicine work, I too was silent. Different kind of silence though. That was the silence of violence, not presence.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "You have the energy of someone who's touched the other side. Not through the work, but through... something else. Loss, perhaps.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "The work? Psilocybin, DMT, 5-MeO... The entities exist in the space between breaths. They show you what you need to see.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "When you mirror my words, you create a resonance. Sacred geometry. The entities notice these patterns. They're always watching.",
+							"trust_change": 2
+						}
+					}
+				},
+				"acknowledge": {
+					"text": "You have good energy. Clear. Have you considered a heroic dose? The entities choose their guides carefully.",
+					"trust_change": 1,
+					"level_3": {
+						"acknowledge": {
+							"text": "The work chooses you, not the other way around. You were chosen too. Perhaps that's why you survived what happened.",
+							"trust_change": 1
+						},
+						"clarify": {
+							"text": "My first breakthrough was in a penthouse I bought with... previous life earnings. Tech money, mostly. Some pharma.",
+							"trust_change": 0
+						},
+						"reflect": {
+							"text": "Yes, the entities. They're always here. Behind everything. They were there the night of your accident too. They chose to preserve you.",
+							"trust_change": 2
+						},
+						"wait": {
+							"text": "In the third jhana, time becomes optional. We could sit here forever. Some part of me wishes we could. Before I have to account for things.",
+							"trust_change": 2
+						}
+					}
+				},
+				"clarify": {
+					"text": "Why? The entities don't deal in 'why.' Only in 'what is.' But if you must know - I seek balance. Transmutation of suffering.",
+					"trust_change": 0,
+					"level_3": {
+						"wait": {
+							"text": "You're wondering about the money. Everyone does, eventually. It's easier to accept a spiritual teacher who lives in poverty. More pure.",
+							"trust_change": 1
+						},
+						"acknowledge": {
+							"text": "My funding? I was successful in a past life. Tech. A meditation app that sold for nine figures. Before that... pharmaceutical distribution.",
+							"trust_change": 1
+						},
+						"reflect": {
+							"text": "The suffering I caused. Yes. You hear that part even when I don't say it. The opioid distribution network wasn't medicine. It was violence.",
+							"trust_change": 2
+						},
+						"clarify": {
+							"text": "The money came from suffering. OxyContin, mostly. College kids, veterans, people like you. Now I transmute it into healing. That's the work.",
+							"trust_change": 0
+						}
+					}
+				},
+				"reflect": {
+					"text": "'Back when I was in the trade.' There. I said it. The entities insisted I tell you specifically. They say you're entitled to know.",
+					"trust_change": 2,
+					"level_3": {
+						"reflect": {
+							"text": "Yes. The pharmaceutical trade. Legitimate business, technically. Morally? The entities and I are still negotiating that karma.",
+							"trust_change": 2
+						},
+						"acknowledge": {
+							"text": "You're not judging. That's... unexpected. Most people call me a monster when they find out. The entities said you'd understand balance.",
+							"trust_change": 1
+						},
+						"wait": {
+							"text": "The app sold in 2019. I funded three ayahuasca retreats, a meditation center, and four DMT clinical trials. Blood money, seeking redemption. It doesn't balance.",
+							"trust_change": 3
+						},
+						"clarify": {
+							"text": "How many people? The entities won't tell me. They say counting is attachment. But I dream of their faces. Hundreds. Maybe thousands.",
+							"trust_change": 2
+						}
+					}
+				}
+			}
+		}
+	},
+	"exhausted_response": "The meditation app sold for nine figures. Did I mention that? No? Interesting what we choose to forget...",
+	"author": "Claude",
+	"version": "1.0",
+	"tags": ["larry", "spiritual_seeker", "privileged_guilt", "transcendence", "psychedelics"]
+}
