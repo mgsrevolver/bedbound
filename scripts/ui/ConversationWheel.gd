@@ -12,11 +12,15 @@ signal conversation_left
 @onready var center_point: Control = $WheelContainer/CenterPoint
 @onready var selection_indicator: Control = $SelectionIndicator
 var progress_indicator: Label
+var trust_indicator: Label
 var leave_button: Button
+var journal_button: Button
 var npc_portrait: Control
 var npc_portrait_sprite: Sprite2D
 var npc_name_label: Label
+var trust_meter: ProgressBar
 var animation_tween: Tween
+var last_trust_change: int = 0
 
 # Wheel configuration
 const WHEEL_RADIUS = 120.0
@@ -60,8 +64,19 @@ func _ready():
 func setup_styling():
 	# Style the dialogue panel similar to original
 	var panel_style = StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.2, 0.2, 0.2, 0.8)
+	panel_style.bg_color = Color(0.2, 0.2, 0.2, 0.9)
+	panel_style.border_width_left = 2
+	panel_style.border_width_right = 2
+	panel_style.border_width_top = 2
+	panel_style.border_width_bottom = 2
+	panel_style.border_color = Color(0.5, 0.5, 0.5, 0.5)
+	panel_style.corner_radius_top_left = 8
+	panel_style.corner_radius_top_right = 8
+	panel_style.corner_radius_bottom_left = 8
+	panel_style.corner_radius_bottom_right = 8
 	dialogue_panel.add_theme_stylebox_override("panel", panel_style)
+
+	var screen_size = get_viewport().get_visible_rect().size
 
 	# Create progress indicator
 	progress_indicator = Label.new()
@@ -69,12 +84,37 @@ func setup_styling():
 	progress_indicator.add_theme_font_size_override("font_size", 14)
 	progress_indicator.add_theme_color_override("font_color", Color(0.8, 0.8, 0.8))
 	progress_indicator.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	progress_indicator.size = Vector2(300, 30)
-	var screen_size = get_viewport().get_visible_rect().size
-	progress_indicator.position = Vector2(screen_size.x * 0.5 - 150, 20)
+	progress_indicator.size = Vector2(400, 30)
+	progress_indicator.position = Vector2(screen_size.x * 0.5 - 200, 20)
 	add_child(progress_indicator)
 
-	# Create Leave button in bottom area
+	# Create trust indicator with visual meter
+	var trust_container = VBoxContainer.new()
+	trust_container.position = Vector2(20, 20)
+	add_child(trust_container)
+
+	var trust_label = Label.new()
+	trust_label.text = "Trust:"
+	trust_label.add_theme_font_size_override("font_size", 14)
+	trust_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.6))
+	trust_container.add_child(trust_label)
+
+	trust_meter = ProgressBar.new()
+	trust_meter.custom_minimum_size = Vector2(150, 20)
+	trust_meter.min_value = 0
+	trust_meter.max_value = 20  # Reasonable max trust
+	trust_meter.value = 0
+	trust_meter.show_percentage = false
+	trust_container.add_child(trust_meter)
+
+	trust_indicator = Label.new()
+	trust_indicator.name = "TrustIndicator"
+	trust_indicator.text = "0"
+	trust_indicator.add_theme_font_size_override("font_size", 16)
+	trust_indicator.add_theme_color_override("font_color", Color(0.9, 0.9, 0.6))
+	trust_container.add_child(trust_indicator)
+
+	# Create Leave button in bottom right
 	leave_button = Button.new()
 	leave_button.name = "LeaveButton"
 	leave_button.text = "Leave"
@@ -83,6 +123,16 @@ func setup_styling():
 	leave_button.position = Vector2(screen_size.x - 100, screen_size.y - 60)
 	leave_button.pressed.connect(_on_leave_pressed)
 	add_child(leave_button)
+
+	# Create Journal button in bottom left
+	journal_button = Button.new()
+	journal_button.name = "JournalButton"
+	journal_button.text = "Journal (J)"
+	journal_button.custom_minimum_size = Vector2(120, 40)
+	journal_button.add_theme_font_size_override("font_size", 14)
+	journal_button.position = Vector2(20, screen_size.y - 60)
+	journal_button.pressed.connect(_on_journal_pressed)
+	add_child(journal_button)
 
 	# Create NPC portrait in upper middle area (after debug panel)
 	npc_portrait = Control.new()
@@ -587,8 +637,61 @@ func reset_wheel_position():
 	update_selection_indicator()
 
 func set_trust_level(level: int):
+	var previous_trust = trust_level
 	trust_level = level
+	last_trust_change = level - previous_trust
+
+	# Update trust visual indicators
+	update_trust_display()
+
 	create_option_segments()  # Recreate segments to add/remove probe option
+
+func update_trust_display():
+	"""Update trust meter and label with animations"""
+	if trust_meter:
+		# Animate trust meter
+		var tween = create_tween()
+		tween.tween_property(trust_meter, "value", trust_level, 0.5)
+
+		# Color code based on trust level
+		var trust_color = Color.RED
+		if trust_level >= 15:
+			trust_color = Color(0.2, 0.9, 0.2)  # Bright green - excellent
+		elif trust_level >= 10:
+			trust_color = Color(0.5, 0.9, 0.3)  # Yellow-green - good
+		elif trust_level >= 5:
+			trust_color = Color(0.9, 0.9, 0.3)  # Yellow - neutral
+		elif trust_level >= 1:
+			trust_color = Color(0.9, 0.5, 0.3)  # Orange - low
+		# else red for 0
+
+		# Style the progress bar
+		var fill_style = StyleBoxFlat.new()
+		fill_style.bg_color = trust_color
+		trust_meter.add_theme_stylebox_override("fill", fill_style)
+
+	if trust_indicator:
+		# Show trust change with animation
+		if last_trust_change != 0:
+			var change_text = " (%+d)" % last_trust_change
+			var change_color = Color.GREEN if last_trust_change > 0 else Color.RED
+			trust_indicator.text = str(trust_level) + change_text
+			trust_indicator.add_theme_color_override("font_color", change_color)
+
+			# Fade back to normal after a moment
+			var reset_timer = Timer.new()
+			add_child(reset_timer)
+			reset_timer.wait_time = 2.0
+			reset_timer.one_shot = true
+			reset_timer.timeout.connect(func():
+				if trust_indicator:
+					trust_indicator.text = str(trust_level)
+					trust_indicator.add_theme_color_override("font_color", Color(0.9, 0.9, 0.6))
+				reset_timer.queue_free()
+			)
+			reset_timer.start()
+		else:
+			trust_indicator.text = str(trust_level)
 
 func update_available_options(available_options: Array):
 	# Convert array of strings to our format and filter segments
@@ -707,3 +810,15 @@ func update_progress_indicator():
 func _on_leave_pressed():
 	print("ConversationWheel: Leave button pressed")
 	conversation_left.emit()
+
+func _on_journal_pressed():
+	print("ConversationWheel: Journal button pressed")
+	var main_scene = get_tree().get_first_node_in_group("main")
+	if main_scene and main_scene.has_method("open_journal"):
+		# Temporarily hide dialogue UI
+		visible = false
+		# Open journal
+		main_scene.open_journal()
+		# Wait for journal to close then show dialogue again
+		await main_scene.get_tree().create_timer(0.5).timeout
+		visible = true
