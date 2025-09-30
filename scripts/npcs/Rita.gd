@@ -5,103 +5,14 @@ func _ready():
 	setup_conversation_tree()
 
 func setup_conversation_tree():
-	npc_name = "Rita"
+	var dialogue_data = DialogueLoader.load_dialogue_from_json("res://data/dialogue/rita_dialogue.json")
 
-	# Set Rita's exhausted response - still pushing her podcast
-	exhausted_response = "Did you listen to my latest episode? The download numbers are through the roof. My people will be in touch about your guest appearance..."
-
-	conversation_tree = {
-		"level_1": {
-			"text": "My show is the fastest-growing podcast in the app store. 500% growth. We went from 1 listener to 5 within an hour. Do you want to join this rocket ship?",
-			"branches": {
-				"wait": {
-					"text": "I can see you calculating the mathematics of my success. Five listeners represents infinite potential. Each listener is a probability node in the network.",
-					"trust_change": 1,
-					"level_3": {
-						"wait": {
-							"text": "Choosing to say nothing is, in fact, a choice. Stasis is a choice. And I //knew// it was the one you would make. Would you like to say nothing on my podcast?",
-							"trust_change": 2
-						},
-						"clarify": {
-							"text": "Not sure how I can further clarify \"auditory probability map.\" It's exactly what it sounds like. Probably best if you just like, subscribe, and share it.",
-							"trust_change": 0
-						},
-						"acknowledge": {
-							"text": "Yes, yes you can be on the podcast. We need curious young people to opine on goings-on in this town. The mayoral election, the asteroid, the... thing that happened to you. I'll be in touch.",
-							"trust_change": 1
-						},
-						"reflect": {
-							"text": "Ah, so you're still in that \"repeat what everyone says\" phase of childhood. You would make a good co-host. Would you like to be on my podcast? You can just repeat what I say.",
-							"trust_change": 1
-						}
-					}
-				},
-				"acknowledge": {
-					"text": "I knew you'd recognize exponential growth when you see it. You have good instincts. Perfect guest material for when we hit the big leagues.",
-					"trust_change": 1,
-					"level_3": {
-						"acknowledge": {
-							"text": "Fabulous. My people will be in touch.",
-							"trust_change": 1
-						},
-						"clarify": {
-							"text": "It will make more sense when we're in the studio together. My people will contact your... parents.",
-							"trust_change": 0
-						},
-						"reflect": {
-							"text": "You'd like to have //me// as a guest on //your// show?? Well, I – I mean, of course, my show is quite high profile. My people will be in touch.",
-							"trust_change": 2
-						},
-						"wait": {
-							"text": "We've all been handling you with \"kid gloves.\" Perhaps it's because you're a... kid. But surely you want your story to be told. Our people will be in touch.",
-							"trust_change": 1
-						}
-					}
-				},
-				"clarify": {
-					"text": "Why wouldn't you want to join? Look, I understand skepticism, but the numbers don't lie. We're talking about 500% growth in real-time.",
-					"trust_change": 0,
-					"level_3": {
-						"wait": {
-							"text": "Another man has been in my house – eating yogurt.",
-							"trust_change": 0
-						},
-						"acknowledge": {
-							"text": "You're a clever one. That's exactly right. Everyone needs a podcast these days.",
-							"trust_change": 1
-						},
-						"reflect": {
-							"text": "I have a lactose sensitivity. I don't eat yogurt.",
-							"trust_change": 1
-						},
-						"clarify": {
-							"text": "A podcast is like a radio show, but on the internet. You can listen whenever you want. It's revolutionary, really.",
-							"trust_change": 0
-						}
-					}
-				},
-				"reflect": {
-					"text": "'Rocket ship?' Yes, exactly. That's precisely the terminology venture capitalists use. You understand the landscape.",
-					"trust_change": 2,
-					"level_3": {
-						"reflect": {
-							"text": "Yes I //will// tell you about my podcast. It's an auditory probability map of this town, and everyone in it. And odds are //you// will appear as my next guest.",
-							"trust_change": 1
-						},
-						"acknowledge": {
-							"text": "You know what? Let's put a pin in it. We can cross-promote our podcasts and share insider tips. My people will be in touch.",
-							"trust_change": 1
-						},
-						"wait": {
-							"text": "I just don't see the need for \"counseling\" when everything is going just fine.",
-							"trust_change": 0
-						},
-						"clarify": {
-							"text": "Well, everyone's been tight-lipped waiting for you to speak up. The whole town is curious about your story.",
-							"trust_change": 2
-						}
-					}
-				}
-			}
-		}
-	}
+	if dialogue_data:
+		npc_name = dialogue_data.npc_name
+		conversation_tree = dialogue_data.conversation_tree
+		exhausted_response = dialogue_data.exhausted_response
+		print("Rita: Successfully loaded dialogue from JSON")
+	else:
+		push_error("Rita: Failed to load dialogue from JSON")
+		npc_name = "Rita"
+		exhausted_response = "..."

@@ -23,9 +23,15 @@ static func load_dialogue_from_json(file_path: String) -> DialogueData:
 	dialogue_data.dialogue_id = data.get("id", "")
 	dialogue_data.npc_name = data.get("npc_name", "")
 	dialogue_data.conversation_tree = data.get("conversation_tree", {})
+	dialogue_data.exhausted_response = data.get("exhausted_response", "...")
 	dialogue_data.author = data.get("author", "")
 	dialogue_data.version = data.get("version", "1.0")
-	dialogue_data.tags = data.get("tags", [])
+
+	# Handle tags array conversion
+	var tags_data = data.get("tags", [])
+	dialogue_data.tags.clear()
+	for tag in tags_data:
+		dialogue_data.tags.append(str(tag))
 
 	return dialogue_data
 

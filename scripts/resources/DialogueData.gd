@@ -5,6 +5,7 @@ extends Resource
 @export var npc_name: String = ""
 
 @export var conversation_tree: Dictionary = {}
+@export var exhausted_response: String = "..."
 
 @export_group("Metadata")
 @export var author: String = ""

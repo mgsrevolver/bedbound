@@ -14,7 +14,8 @@
       "Read(//Users/clayreimus/**)",
       "Bash(gh repo fork:*)",
       "Bash(git remote set-url:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
